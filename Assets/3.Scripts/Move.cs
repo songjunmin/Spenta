@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
 using Spine;
+using System.Diagnostics;
 
 public class Move : MonoBehaviour
 {
@@ -11,9 +12,7 @@ public class Move : MonoBehaviour
     public bool isJump;
     public float boxSizeX;
     public float boxSizeY;
-    public float offsetX;
-    public float offsetY;
-
+    public string animName;
 
     public Rigidbody2D rigid;
     BoxCollider2D bc;
@@ -32,51 +31,32 @@ public class Move : MonoBehaviour
 
         boxSizeX = bc.size.x;
         boxSizeY = bc.size.y;
-
-        offsetX = bc.offset.x;
-        offsetY = bc.offset.y;
     }
 
     // Update is called once per frame
     void Update()
     {
-        TrackEntry entry = skeletonAnimation.state.GetCurrent(0);
-        string animName = (entry == null ? null : entry.Animation.Name);
-
         if (Input.GetAxisRaw("Horizontal") < 0 )
         {
             rigid.velocity = new Vector2(speed * -1, rigid.velocity.y);
-
-            if (string.Compare("Run", animName) != 0)
-            {
-                skeletonAnimation.state.SetAnimation(0, "Run", true);
-            }
-
             transform.localScale = new Vector3(-1f, 1f, 1f);
         }
         else if (Input.GetAxisRaw("Horizontal") > 0)
         {
             rigid.velocity = new Vector2(speed, rigid.velocity.y);
-
-            if (string.Compare("Run", animName) != 0)
-            {
-                skeletonAnimation.state.SetAnimation(0, "Run", true);
-            }
-
             transform.localScale = new Vector3(1f, 1f, 1f);
         }
         else
         {
             rigid.velocity = new Vector2(0, rigid.velocity.y);
-
-            if (string.Compare("Run", animName) == 0)
-            {
-                skeletonAnimation.state.SetAnimation(0, "Stand", true);
-            }
         }
 
         // 점프
         Jump();
+
+        // Test
+        UnityEngine.Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 0.01f), Vector2.down, Color.red);
+
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -97,7 +77,8 @@ public class Move : MonoBehaviour
 
     void DownJump()
     {
-        hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - boxSizeY / 2 - 0.01f), Vector2.down, 0.01f);
+        hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y  - 0.01f), Vector2.down, 0.01f);
+
 
         if (hit && hit.collider.gameObject.CompareTag("UpTile"))
         {
@@ -107,15 +88,15 @@ public class Move : MonoBehaviour
 
     void Jump()
     {
-        // 아래키를 누르고있으면 아래점프
-        if (Input.GetButton("Down"))
-        {
-            DownJump();
-            return;
-        }
-
         if (Input.GetButtonDown("Jump"))
         {
+            // 아래키를 누르고있으면 아래점프
+            if (Input.GetButton("Down"))
+            {
+                DownJump();
+                return;
+            }
+
             if (!isJump)
             {
                 isJump = true;
