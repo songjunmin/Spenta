@@ -1,0 +1,286 @@
+
+Gladiator.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Body
+  rotate: false
+  xy: 478, 255
+  size: 225, 317
+  orig: 225, 317
+  offset: 0, 0
+  index: -1
+Cloak
+  rotate: false
+  xy: 180, 574
+  size: 469, 448
+  orig: 469, 448
+  offset: 0, 0
+  index: -1
+Elbow
+  rotate: true
+  xy: 1572, 867
+  size: 56, 73
+  orig: 56, 73
+  offset: 0, 0
+  index: -1
+Hand-open
+  rotate: false
+  xy: 1434, 511
+  size: 115, 119
+  orig: 115, 119
+  offset: 0, 0
+  index: -1
+Helm
+  rotate: false
+  xy: 1278, 636
+  size: 182, 229
+  orig: 182, 229
+  offset: 0, 0
+  index: -1
+L-Detail-1
+  rotate: false
+  xy: 1832, 793
+  size: 67, 79
+  orig: 67, 79
+  offset: 0, 0
+  index: -1
+L-Detail-2
+  rotate: true
+  xy: 2, 13
+  size: 78, 115
+  orig: 78, 115
+  offset: 0, 0
+  index: -1
+L-Hand-1
+  rotate: false
+  xy: 417, 81
+  size: 138, 162
+  orig: 138, 162
+  offset: 0, 0
+  index: -1
+L-Hand-2
+  rotate: false
+  xy: 862, 115
+  size: 108, 142
+  orig: 108, 142
+  offset: 0, 0
+  index: -1
+L-Hand-3
+  rotate: false
+  xy: 1666, 686
+  size: 84, 83
+  orig: 84, 83
+  offset: 0, 0
+  index: -1
+L-Knee
+  rotate: false
+  xy: 1901, 831
+  size: 68, 74
+  orig: 68, 74
+  offset: 0, 0
+  index: -1
+L-Leg-1
+  rotate: true
+  xy: 557, 2
+  size: 90, 130
+  orig: 90, 130
+  offset: 0, 0
+  index: -1
+L-Leg-2
+  rotate: true
+  xy: 1545, 636
+  size: 93, 103
+  orig: 93, 103
+  offset: 0, 0
+  index: -1
+L-Leg-3
+  rotate: true
+  xy: 689, 8
+  size: 84, 69
+  orig: 84, 69
+  offset: 0, 0
+  index: -1
+L-Neck
+  rotate: true
+  xy: 1551, 531
+  size: 103, 101
+  orig: 103, 101
+  offset: 0, 0
+  index: -1
+L-Shoulder
+  rotate: false
+  xy: 180, 63
+  size: 235, 180
+  orig: 235, 180
+  offset: 0, 0
+  index: -1
+Light
+  rotate: false
+  xy: 705, 347
+  size: 245, 245
+  orig: 245, 245
+  offset: 0, 0
+  index: -1
+Lion-shield
+  rotate: false
+  xy: 180, 245
+  size: 296, 327
+  orig: 296, 327
+  offset: 0, 0
+  index: -1
+Lion1
+  rotate: false
+  xy: 651, 594
+  size: 315, 271
+  orig: 315, 271
+  offset: 0, 0
+  index: -1
+Lion2
+  rotate: false
+  xy: 1923, 907
+  size: 120, 115
+  orig: 120, 115
+  offset: 0, 0
+  index: -1
+R-Detail-1
+  rotate: false
+  xy: 1857, 874
+  size: 42, 71
+  orig: 42, 71
+  offset: 0, 0
+  index: -1
+R-Detail-2
+  rotate: true
+  xy: 1647, 871
+  size: 74, 104
+  orig: 74, 104
+  offset: 0, 0
+  index: -1
+R-Hand-1
+  rotate: true
+  xy: 1278, 541
+  size: 93, 154
+  orig: 93, 154
+  offset: 0, 0
+  index: -1
+R-Hand-2
+  rotate: true
+  xy: 1666, 771
+  size: 98, 87
+  orig: 98, 87
+  offset: 0, 0
+  index: -1
+R-Hand-3
+  rotate: false
+  xy: 760, 18
+  size: 78, 76
+  orig: 78, 76
+  offset: 0, 0
+  index: -1
+R-Knee
+  rotate: false
+  xy: 119, 16
+  size: 49, 75
+  orig: 49, 75
+  offset: 0, 0
+  index: -1
+R-Leg-1
+  rotate: false
+  xy: 1545, 731
+  size: 119, 134
+  orig: 119, 134
+  offset: 0, 0
+  index: -1
+R-Leg-2
+  rotate: false
+  xy: 1755, 780
+  size: 75, 101
+  orig: 75, 101
+  offset: 0, 0
+  index: -1
+R-Leg-3
+  rotate: false
+  xy: 1753, 883
+  size: 102, 62
+  orig: 102, 62
+  offset: 0, 0
+  index: -1
+R-Shoulder
+  rotate: false
+  xy: 718, 96
+  size: 142, 161
+  orig: 142, 161
+  offset: 0, 0
+  index: -1
+Shadow
+  rotate: false
+  xy: 651, 867
+  size: 642, 155
+  orig: 642, 155
+  offset: 0, 0
+  index: -1
+Shield
+  rotate: true
+  xy: 968, 605
+  size: 260, 308
+  orig: 260, 308
+  offset: 0, 0
+  index: -1
+Smoke
+  rotate: false
+  xy: 557, 94
+  size: 159, 159
+  orig: 159, 159
+  offset: 0, 0
+  index: -1
+Spear
+  rotate: false
+  xy: 2, 93
+  size: 87, 929
+  orig: 87, 929
+  offset: 0, 0
+  index: -1
+Spear-white
+  rotate: false
+  xy: 91, 93
+  size: 87, 929
+  orig: 87, 929
+  offset: 0, 0
+  index: -1
+tr1
+  rotate: true
+  xy: 1462, 632
+  size: 233, 81
+  orig: 233, 81
+  offset: 0, 0
+  index: -1
+tr2
+  rotate: false
+  xy: 1295, 925
+  size: 326, 97
+  orig: 326, 97
+  offset: 0, 0
+  index: -1
+tr3
+  rotate: false
+  xy: 705, 259
+  size: 263, 86
+  orig: 263, 86
+  offset: 0, 0
+  index: -1
+tr4
+  rotate: false
+  xy: 1623, 947
+  size: 298, 75
+  orig: 298, 75
+  offset: 0, 0
+  index: -1
+tr5
+  rotate: false
+  xy: 1295, 867
+  size: 275, 56
+  orig: 275, 56
+  offset: 0, 0
+  index: -1
