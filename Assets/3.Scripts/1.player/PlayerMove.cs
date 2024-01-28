@@ -5,23 +5,20 @@ using Spine.Unity;
 using Spine;
 using System.Diagnostics;
 
-public class Move : MonoBehaviour
+public class PlayerMove : MonoBehaviour
 {
     public float speed;
+    public float moveDir;
     public float jumpPower;
     public bool isJump;
     public float boxSizeX;
     public float boxSizeY;
-    public string animName;
 
     public Rigidbody2D rigid;
     BoxCollider2D bc;
 
     public RaycastHit2D hit;
 
-    public SkeletonAnimation skeletonAnimation;
-
-    
 
     // Start is called before the first frame update
     void Start()
@@ -36,20 +33,8 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxisRaw("Horizontal") < 0 )
-        {
-            rigid.velocity = new Vector2(speed * -1, rigid.velocity.y);
-            transform.localScale = new Vector3(-1f, 1f, 1f);
-        }
-        else if (Input.GetAxisRaw("Horizontal") > 0)
-        {
-            rigid.velocity = new Vector2(speed, rigid.velocity.y);
-            transform.localScale = new Vector3(1f, 1f, 1f);
-        }
-        else
-        {
-            rigid.velocity = new Vector2(0, rigid.velocity.y);
-        }
+        // 움직임
+        Move();
 
         // 점프
         Jump();
@@ -57,6 +42,21 @@ public class Move : MonoBehaviour
         // Test
         UnityEngine.Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 0.01f), Vector2.down, Color.red);
 
+    }
+
+    void Move()
+    {
+        moveDir = Input.GetAxisRaw("Horizontal");
+
+        if (moveDir != 0)
+        {
+            rigid.velocity = new Vector2(moveDir * speed, rigid.velocity.y);
+            transform.localScale = new Vector3(moveDir, 1f, 1f);
+        }
+        else
+        {
+            rigid.velocity = new Vector2(0, rigid.velocity.y);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
