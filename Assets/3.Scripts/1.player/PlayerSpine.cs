@@ -25,37 +25,75 @@ public class PlayerSpine : MonoBehaviour
 
     public string animName;
 
-    public string nowState;
     public float moveDir;
 
     void Start()
     {
-        nowState = "Stand";
+        skeletonAnimation.AnimationState.Complete += delegate (TrackEntry trackEntry)
+        {
+            if (trackEntry.animation.name != "Run" && trackEntry.animation.name != "Stand")
+            {
+                _AnimState = AnimState.Stand;
+                SetCurrentAnimation(_AnimState);
+            }
+        };
+
+        entry = skeletonAnimation.state.GetCurrent(0);
+        entry.mixDuration = 0.6f;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        SpineMng();   
+        entry = skeletonAnimation.state.GetCurrent(0);
+        animName = entry == null ? null : entry.Animation.Name;
+
+        SpineMng();
     }
 
     void SpineMng()
     {
-        entry = skeletonAnimation.state.GetCurrent(0);
-        animName = entry == null ? null : entry.Animation.Name;
-
-        moveDir = GameManager.instance.Player.GetComponent<PlayerMove>().moveDir;
-
-        if (moveDir == 0)
+        // 아무것도 하지 않고 있을 경우
+        if (animName == "Stand" || animName == "Run")
         {
-            _AnimState = AnimState.Stand;
-        }
-        else
-        {
-            _AnimState = AnimState.Run;
+            moveDir = GameManager.instance.Player.GetComponent<PlayerMove>().moveDir;
+
+            if (moveDir == 0)
+            {
+                _AnimState = AnimState.Stand;
+            }
+            else
+            {
+                _AnimState = AnimState.Run;
+            }
+
+            
         }
 
+        // 애니메이션 실행
+        SetCurrentAnimation(_AnimState);
+    }
+
+    public void SetAnimState(PlayerAction.SkillName skillName)
+    {
+        switch(skillName)
+        {
+            case PlayerAction.SkillName.Bohuman:
+                _AnimState = AnimState.Lion;
+                break;
+
+            case PlayerAction.SkillName.Asha:
+                _AnimState = AnimState.Knock;
+                break;
+
+            case PlayerAction.SkillName.Cassatra:
+                _AnimState = AnimState.Shot;
+                break;
+
+            default:
+                break;
+        }
         SetCurrentAnimation(_AnimState);
     }
 

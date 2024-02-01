@@ -10,7 +10,7 @@ public class PlayerMove : MonoBehaviour
     public float speed;
     public float moveDir;
     public float jumpPower;
-    public bool isJump;
+    public int isJump;
     public float boxSizeX;
     public float boxSizeY;
 
@@ -46,6 +46,11 @@ public class PlayerMove : MonoBehaviour
 
     void Move()
     {
+        if (gameObject.GetComponentInChildren<PlayerSpine>().animName != "Run" && gameObject.GetComponentInChildren<PlayerSpine>().animName != "Stand")
+        {
+            return;
+        }
+
         moveDir = Input.GetAxisRaw("Horizontal");
 
         if (moveDir != 0)
@@ -63,7 +68,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (collision.gameObject.layer.Equals(6))
         {
-            isJump = false;
+            isJump = 0;
         }
     }
 
@@ -77,8 +82,7 @@ public class PlayerMove : MonoBehaviour
 
     void DownJump()
     {
-        hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y  - 0.01f), Vector2.down, 0.01f);
-
+        hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y  - 0.05f), Vector2.down, 0.01f);
 
         if (hit && hit.collider.gameObject.CompareTag("UpTile"))
         {
@@ -88,6 +92,11 @@ public class PlayerMove : MonoBehaviour
 
     void Jump()
     {
+        if (gameObject.GetComponentInChildren<PlayerSpine>().animName != "Run" && gameObject.GetComponentInChildren<PlayerSpine>().animName != "Stand")
+        {
+            return;
+        }
+
         if (Input.GetButtonDown("Jump"))
         {
             // 아래키를 누르고있으면 아래점프
@@ -97,9 +106,9 @@ public class PlayerMove : MonoBehaviour
                 return;
             }
 
-            if (!isJump)
+            if (isJump == 0)
             {
-                isJump = true;
+                isJump = 1;
                 // 점프 전 y축 속도 초기화
                 rigid.velocity = new Vector2(rigid.velocity.x, 0);
 

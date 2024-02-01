@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -8,14 +10,25 @@ public class PlayerStatus : MonoBehaviour
     public float hp;
     public float maxHp;
 
-    public enum SkillName
-    {
-        bohuman, cassatra, asha, armaity
-    }
+    // 보후만 , 카사트라 , 아샤 , 아르마이티
 
     public float[] coolTime = new float[4];
     public float[] curTime = new float[4];
     public bool[] canUse = new bool[4];
+    public float[] skillDmg = new float[3];
+
+    [Serializable]
+    public class List
+    {
+        public int[] range = new int[2];
+
+        public void ChangeRnage(int minusNum, int plusNum)
+        {
+            range[0] -= minusNum;
+            range[1] += plusNum;
+        }
+    }
+    public List[] skillRange = new List[3];
 
     /*
     // 보후만 쿨타임
@@ -61,9 +74,9 @@ public class PlayerStatus : MonoBehaviour
             }
         }
     }
-    public void UseSkill(int skillNum)
+    public void UseSkill(PlayerAction.SkillName skillName)
     {
-        curTime[skillNum] = coolTime[skillNum];
-        canUse[skillNum] = false;
+        curTime[(int)skillName] = coolTime[(int)skillName];
+        canUse[(int)skillName] = false;
     }
 }

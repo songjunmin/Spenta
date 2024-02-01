@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     public Text pieceOfEnlightenmentText;
     public Text sparkOfKnowledgeText;
 
+    public GameObject warrantPanel;
+
     private void Awake()
     {
         if (instance == null)
@@ -46,6 +48,21 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Test();        
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (warrantPanel.activeSelf)
+            {
+                warrantPanel.SetActive(false);
+                Time.timeScale = 1f;
+            }
+            else
+            {
+                warrantPanel.SetActive(true);
+                gameObject.GetComponentInChildren<WarrantSystem>().SetMessage();
+                Time.timeScale = 0f;
+            }
+        }
     }
 
     public void GetItem()

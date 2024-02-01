@@ -6,7 +6,12 @@ public class PlayerAction : MonoBehaviour
 {
     public enum SkillName
     {
-        bohuman, cassatra, asha, armaity
+        Bohuman, Cassatra, Asha, Armaity
+    }
+
+    public enum ActionName
+    {
+
     }
 
     void Start()
@@ -21,25 +26,37 @@ public class PlayerAction : MonoBehaviour
 
     void SkillMng()
     {
+        // 다른 행동 중일 경우
+        if (gameObject.GetComponentInChildren<PlayerSpine>().animName != "Stand" && gameObject.GetComponentInChildren<PlayerSpine>().animName != "Run")
+        {
+            return;
+        }
+        // 점프 중일 경우(임시)
+        if (gameObject.GetComponent<PlayerMove>().isJump != 0)
+        {
+            return;
+        }
+
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             // 보후만 사용
-            SKillUse(SkillName.bohuman);
+            SKillUse(SkillName.Bohuman);
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
             // 카사트라 사용
-            SKillUse(SkillName.cassatra);
+            SKillUse(SkillName.Cassatra);
         }
         else if (Input.GetKeyDown(KeyCode.Q))
         {
             // 아샤 사용
-            SKillUse(SkillName.asha);
+            SKillUse(SkillName.Asha);
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
             // 아르마이티 사용
-            SKillUse(SkillName.armaity);
+            SKillUse(SkillName.Armaity);
         }
 
     }
@@ -48,7 +65,8 @@ public class PlayerAction : MonoBehaviour
     {
         if (gameObject.GetComponent<PlayerStatus>().canUse[(int)skillName])
         {
-            gameObject.GetComponent<PlayerStatus>().UseSkill((int)skillName);
+            gameObject.GetComponent<PlayerStatus>().UseSkill(skillName);
+            gameObject.GetComponentInChildren<PlayerSpine>().SetAnimState(skillName);
         }
     }
 }
