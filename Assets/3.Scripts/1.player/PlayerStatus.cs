@@ -3,12 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class PlayerStatus : MonoBehaviour
 {
     public float hp;
     public float maxHp;
+    public float shield;
+    public float maxShield;
+
+    public Image hpBar;
+    public Image shieldBar;
+
+    public float attackPower;
+    public float attackSpeed;
 
     // 보후만 , 카사트라 , 아샤 , 아르마이티
 
@@ -52,14 +60,29 @@ public class PlayerStatus : MonoBehaviour
     public bool armaitySkill;
     */
 
+
+    // 아메샤의 권능
+    public float peaceTime;
+    public bool isFighting;
+    public float needForPeace;
+    public int shieldMax;
+    public int damageAbsortion;
+    public bool spentaAbsortion;
+
+
+
+    public float totalAmount;
     void Start()
     {
-        
+        peaceTime = 0;
+        isFighting = false;
     }
 
     void Update()
     {
         CoolTimeMng();
+        ShieldTest();
+        PeaceTimeMng();
     }
 
     public void CoolTimeMng()
@@ -78,5 +101,62 @@ public class PlayerStatus : MonoBehaviour
     {
         curTime[(int)skillName] = coolTime[(int)skillName];
         canUse[(int)skillName] = false;
+    }
+
+    public void PeaceTimeMng()
+    {
+        if (peaceTime > 0)
+        {
+            peaceTime -= Time.deltaTime;
+
+            if (peaceTime <= 0)
+            {
+                isFighting = false;
+                shield = maxShield;
+                ChangeHp();
+            }
+        }
+    }
+
+    public void ShieldTest()
+    {
+        if (Input.GetKeyDown(KeyCode.Keypad6))
+        {
+            shield -= 5;
+            ChangeHp();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Keypad7))
+        {
+            hp -= 10;
+            peaceTime = needForPeace;
+            ChangeHp();
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad8))
+        {
+            hp += 10;
+            ChangeHp();
+        }
+    }
+
+    public void ChangeHp()
+    {
+        totalAmount = (hp / maxHp) * 200 + (shield / maxShield) * 20;
+
+        if (totalAmount > 200)
+        {
+            hpBar.fillAmount = (hp / maxHp) * (200 / totalAmount);
+            shieldBar.fillAmount = (shield / maxShield) * (200 / totalAmount);
+
+        }
+        else
+        {
+            hpBar.fillAmount = hp / maxHp;
+            shieldBar.fillAmount = shield / maxShield;
+        }
+
+        shieldBar.rectTransform.localPosition = new Vector2(hpBar.fillAmount * 200, shieldBar.rectTransform.localPosition.y);
+
+
     }
 }

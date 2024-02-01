@@ -30,15 +30,15 @@ public class WarrantSystem : MonoBehaviour
     public SpentaWarrant[] maxSpentaWarrant = new SpentaWarrant[3];
     public SpentaWarrant[] nowSpentaWarrant = new SpentaWarrant[3];
 
-
     void Start()
     {
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SetMessage()

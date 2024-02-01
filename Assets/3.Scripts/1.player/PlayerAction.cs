@@ -9,9 +9,10 @@ public class PlayerAction : MonoBehaviour
         Bohuman, Cassatra, Asha, Armaity
     }
 
+
     public enum ActionName
     {
-
+         Dash, Parrying, Attack
     }
 
     void Start()

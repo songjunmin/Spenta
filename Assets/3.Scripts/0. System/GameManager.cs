@@ -88,15 +88,6 @@ public class GameManager : MonoBehaviour
             sparkOfKnowledge++;
             GetItem();
         }
-        else if (Input.GetKeyDown(KeyCode.Keypad7))
-        {
-            Player.GetComponent<PlayerStatus>().hp -= 10;
-            ChangeHp();
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad8))
-        {
-            Player.GetComponent<PlayerStatus>().hp += 10;
-            ChangeHp();
-        }
+       
     }
 }
