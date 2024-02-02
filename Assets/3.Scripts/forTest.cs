@@ -11,6 +11,8 @@ public class forTest : MonoBehaviour
     public AnimationReferenceAsset[] AnimClip;
 
     public float speed;
+
+
     public enum AnimState
     {
         Block,Blow,Knock,Lion,Run,Shot,Stand
