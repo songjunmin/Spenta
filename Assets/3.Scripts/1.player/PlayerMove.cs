@@ -46,11 +46,6 @@ public class PlayerMove : MonoBehaviour
 
     void Move()
     {
-        if (gameObject.GetComponentInChildren<PlayerSpine>().animName != "Run" && gameObject.GetComponentInChildren<PlayerSpine>().animName != "Stand")
-        {
-            return;
-        }
-
         moveDir = Input.GetAxisRaw("Horizontal");
 
         if (moveDir != 0)
@@ -92,11 +87,6 @@ public class PlayerMove : MonoBehaviour
 
     void Jump()
     {
-        if (gameObject.GetComponentInChildren<PlayerSpine>().animName != "Run" && gameObject.GetComponentInChildren<PlayerSpine>().animName != "Stand")
-        {
-            return;
-        }
-
         if (Input.GetButtonDown("Jump"))
         {
             // 아래키를 누르고있으면 아래점프

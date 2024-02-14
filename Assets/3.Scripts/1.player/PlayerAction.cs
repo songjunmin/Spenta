@@ -10,9 +10,9 @@ public class PlayerAction : MonoBehaviour
     }
 
 
-    public enum ActionName
+    public enum NonSkillName
     {
-         Dash, Parrying, Attack
+         Dash, Block, Attack
     }
 
     void Start()
@@ -27,16 +27,8 @@ public class PlayerAction : MonoBehaviour
 
     void SkillMng()
     {
-        // 다른 행동 중일 경우
-        if (gameObject.GetComponentInChildren<PlayerSpine>().animName != "Stand" && gameObject.GetComponentInChildren<PlayerSpine>().animName != "Run")
-        {
-            return;
-        }
-        // 점프 중일 경우(임시)
-        if (gameObject.GetComponent<PlayerMove>().isJump != 0)
-        {
-            return;
-        }
+        // 다른 행동 중일 경우 처리 필요
+
 
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -59,15 +51,30 @@ public class PlayerAction : MonoBehaviour
             // 아르마이티 사용
             SKillUse(SkillName.Armaity);
         }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // 막기 사용
+            NonSkillUse(NonSkillName.Block);
+        }
 
     }
 
     void SKillUse(SkillName skillName)
     {
-        if (gameObject.GetComponent<PlayerStatus>().canUse[(int)skillName])
+        if (gameObject.GetComponent<PlayerStatus>().skillCanUse[(int)skillName])
         {
-            gameObject.GetComponent<PlayerStatus>().UseSkill(skillName);
-            gameObject.GetComponentInChildren<PlayerSpine>().SetAnimState(skillName);
+            gameObject.GetComponent<PlayerStatus>().Action(skillName);
+            gameObject.GetComponentInChildren<PlayerSpine>().Action(skillName);
         }
+
+    }
+    void NonSkillUse(NonSkillName nonSkillName)
+    {
+        if (gameObject.GetComponent<PlayerStatus>().nonSkillCanUse[(int)nonSkillName])
+        {
+            gameObject.GetComponent<PlayerStatus>().Action(nonSkillName);
+            gameObject.GetComponentInChildren<PlayerSpine>().Action(nonSkillName);
+        }
+
     }
 }

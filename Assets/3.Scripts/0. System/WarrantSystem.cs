@@ -134,7 +134,7 @@ public class WarrantSystem : MonoBehaviour
                     // 기초 강화 1
                     case 0:
 
-                        GameManager.instance.Player.GetComponent<PlayerStatus>().coolTime[0] -= 0.5f;
+                        GameManager.instance.Player.GetComponent<PlayerStatus>().skillCoolTime[0] -= 0.5f;
                         break;
 
                     // 기초 강화 2
@@ -167,7 +167,7 @@ public class WarrantSystem : MonoBehaviour
                     // 기초 강화 1
                     case 0:
 
-                        GameManager.instance.Player.GetComponent<PlayerStatus>().coolTime[1] -= 0.7f;
+                        GameManager.instance.Player.GetComponent<PlayerStatus>().skillCoolTime[1] -= 0.7f;
                         break;
 
                     // 기초 강화 2
@@ -197,7 +197,7 @@ public class WarrantSystem : MonoBehaviour
                     // 기초 강화 1
                     case 0:
 
-                        GameManager.instance.Player.GetComponent<PlayerStatus>().coolTime[2] -= 0.7f;
+                        GameManager.instance.Player.GetComponent<PlayerStatus>().skillCoolTime[2] -= 0.7f;
                         break;
 
                     // 기초 강화 2

@@ -27,7 +27,6 @@ public class GladiatorDemoScript : MonoBehaviour {
 		foreach (Spine.Animation a in skeletonAnimation.SkeletonDataAsset.GetSkeletonData(true).Animations) {
 			if (GUILayout.Button(a.Name, GUILayout.Width(buttonSize), GUILayout.Height(buttonSize * 0.25f))) {
 				if (string.Compare(a.Name, animName) != 0) {
-					// true : 반복 / false : 반복x 
 					skeletonAnimation.state.SetAnimation(0, a.Name, true);
 				}
 			};

@@ -16,14 +16,20 @@ public class PlayerStatus : MonoBehaviour
     public Image shieldBar;
 
     public float attackPower;
+    public float defense;
     public float attackSpeed;
 
     // 보후만 , 카사트라 , 아샤 , 아르마이티
 
-    public float[] coolTime = new float[4];
-    public float[] curTime = new float[4];
-    public bool[] canUse = new bool[4];
+    public float[] skillCoolTime = new float[4];
+    public float[] skillCurTime = new float[4];
+    public bool[] skillCanUse = new bool[4];
     public float[] skillDmg = new float[3];
+
+    // 패링 , 점멸 , 공격 쿨타임
+    public float[] nonSkillCoolTime = new float[4];
+    public float[] nonSkillCurTime = new float[4];
+    public bool[] nonSkillCanUse = new bool[4];
 
     [Serializable]
     public class List
@@ -40,23 +46,23 @@ public class PlayerStatus : MonoBehaviour
 
     /*
     // 보후만 쿨타임
-    public float bohumanCoolTime;
-    public float bohumanCurTime;
+    public float bohumanskillCoolTime;
+    public float bohumanskillCurTime;
     public bool bohumanSkill;
 
     // 카사트라 쿨타임
-    public float cassatraCoolTime;
-    public float cassatraCurTime;
+    public float cassatraskillCoolTime;
+    public float cassatraskillCurTime;
     public bool cassatraSkill;
 
     // 아샤 쿨타임
-    public float ashaCoolTime;
-    public float ashaCurTime;
+    public float ashaskillCoolTime;
+    public float ashaskillCurTime;
     public bool ashaSkill;
 
     // 아르마이티 쿨타임
-    public float armaityCoolTime;
-    public float armaityCurTime;
+    public float armaityskillCoolTime;
+    public float armaityskillCurTime;
     public bool armaitySkill;
     */
 
@@ -80,28 +86,41 @@ public class PlayerStatus : MonoBehaviour
 
     void Update()
     {
-        CoolTimeMng();
+        skillCoolTimeMng();
         ShieldTest();
         PeaceTimeMng();
     }
 
-    public void CoolTimeMng()
+    public void skillCoolTimeMng()
     {
         for (int i = 0; i < 4; i++)
         {
-            curTime[i] -= Time.deltaTime;
+            skillCurTime[i] -= Time.deltaTime;
+            nonSkillCurTime[i] -= Time.deltaTime;
 
-            if (curTime[i] < 0 && canUse[i] == false)
+            if (skillCurTime[i] < 0 && skillCanUse[i] == false)
             {
-                canUse[i] = true;
+                skillCanUse[i] = true;
+                
+            }
+            if (nonSkillCurTime[i] < 0 && nonSkillCanUse[i] == false)
+            {
+                nonSkillCanUse[i] = true;
             }
         }
     }
-    public void UseSkill(PlayerAction.SkillName skillName)
+    public void Action(PlayerAction.SkillName skillName)
     {
-        curTime[(int)skillName] = coolTime[(int)skillName];
-        canUse[(int)skillName] = false;
+        skillCurTime[(int)skillName] = skillCoolTime[(int)skillName];
+        skillCanUse[(int)skillName] = false;
     }
+
+    public void Action(PlayerAction.NonSkillName nonSkillName)
+    {
+        nonSkillCurTime[(int)nonSkillName] = nonSkillCoolTime[(int)nonSkillName];
+        nonSkillCanUse[(int)nonSkillName] = false;
+    }
+
 
     public void PeaceTimeMng()
     {
@@ -141,22 +160,34 @@ public class PlayerStatus : MonoBehaviour
 
     public void ChangeHp()
     {
-        totalAmount = (hp / maxHp) * 200 + (shield / maxShield) * 20;
+        hpBar.fillAmount = hp / maxHp;
+        shieldBar.fillAmount = shield / maxShield;
+    }
 
-        if (totalAmount > 200)
+    public void Damaged(bool trueDamaged, float atkPower, float coefficient)
+    {
+        float totalDamage = atkPower * coefficient;
+
+        // 함정 등의 고정 데미지
+        if (!trueDamaged)
         {
-            hpBar.fillAmount = (hp / maxHp) * (200 / totalAmount);
-            shieldBar.fillAmount = (shield / maxShield) * (200 / totalAmount);
-
+            totalDamage /= (100 + defense);
         }
-        else
+
+        if (shield > 0)
         {
-            hpBar.fillAmount = hp / maxHp;
-            shieldBar.fillAmount = shield / maxShield;
+            if (totalDamage < shield)
+            {
+                shield -= totalDamage;
+            }
+            else
+            {
+                hp -= (totalDamage - shield);
+                shield = 0;
+            }
         }
 
-        shieldBar.rectTransform.localPosition = new Vector2(hpBar.fillAmount * 200, shieldBar.rectTransform.localPosition.y);
-
+        ChangeHp();
 
     }
 }
