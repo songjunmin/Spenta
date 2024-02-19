@@ -26,10 +26,10 @@ public class PlayerStatus : MonoBehaviour
     public bool[] skillCanUse = new bool[4];
     public float[] skillDmg = new float[3];
 
-    // 패링 , 점멸 , 공격 쿨타임
-    public float[] nonSkillCoolTime = new float[4];
-    public float[] nonSkillCurTime = new float[4];
-    public bool[] nonSkillCanUse = new bool[4];
+    // 점멸, 패링 , 공격 쿨타임
+    public float[] nonSkillCoolTime = new float[3];
+    public float[] nonSkillCurTime = new float[3];
+    public bool[] nonSkillCanUse = new bool[3];
 
     [Serializable]
     public class List
@@ -78,13 +78,28 @@ public class PlayerStatus : MonoBehaviour
 
 
     // 아메샤의 권능
+
+    // 빛의 권능 - 점멸
+    public float flashRange;
+
+    // 진리의 권능 - 패링
+    public float parryingTime;
+    public float perfectParryingTime;
+    public float invincibilityTime;
+
+
+    // 생명의 권능
     public float peaceTime;
     public bool isFighting;
     public float needForPeace;
     public int shieldMax;
+
+    // 사랑의 권능
     public int damageAbsortion;
     public bool spentaAbsortion;
+    public float trapDmg;
 
+    // ?
     public float totalAmount;
     void Start()
     {

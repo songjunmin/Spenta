@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,8 +24,10 @@ public class GameManager : MonoBehaviour
     public Text pieceOfEnlightenmentText;
     public Text sparkOfKnowledgeText;
 
-    public GameObject warrantPanel;
+    public GameObject warrantOfSpentaPanel;
+    public GameObject warrantOfAmeshaPanel;
 
+    public float interactionRange;
     private void Awake()
     {
         if (instance == null)
@@ -47,19 +50,35 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        Test();        
+        Test();
+        FindInteraction();
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            if (warrantPanel.activeSelf)
+            if (warrantOfSpentaPanel.activeSelf)
             {
-                warrantPanel.SetActive(false);
+                warrantOfSpentaPanel.SetActive(false);
                 Time.timeScale = 1f;
             }
             else
             {
-                warrantPanel.SetActive(true);
-                gameObject.GetComponentInChildren<WarrantSystem>().SetMessage();
+                warrantOfSpentaPanel.SetActive(true);
+                gameObject.GetComponentInChildren<WarrantSystem>().SetMessageSpenta();
+                Time.timeScale = 0f;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (warrantOfAmeshaPanel.activeSelf)
+            {
+                warrantOfAmeshaPanel.SetActive(false);
+                Time.timeScale = 1f;
+            }
+            else
+            {
+                warrantOfAmeshaPanel.SetActive(true);
+                gameObject.GetComponentInChildren<WarrantSystem>().SetMessageAmesha();
                 Time.timeScale = 0f;
             }
         }
@@ -89,5 +108,27 @@ public class GameManager : MonoBehaviour
             GetItem();
         }
        
+    }
+
+    public void FindInteraction()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log("실행");
+            Collider2D[] hits = Physics2D.OverlapCircleAll(Player.transform.position, interactionRange);
+
+            foreach (Collider2D hit in hits)
+            {
+                Interaction inter = hit.GetComponent<Interaction>();
+                if (inter != null)
+                {
+                    Debug.Log("찾음");
+                    hit.SendMessage("SendInteraction");
+                    return;
+                }
+            }
+        }
+
+        
     }
 }
