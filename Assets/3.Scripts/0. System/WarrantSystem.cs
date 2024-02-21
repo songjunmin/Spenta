@@ -589,6 +589,7 @@ public class WarrantSystem : MonoBehaviour
         
 
         ameshaPanel.SetActive(true);
+        Time.timeScale = 0;
     }
 
 
@@ -630,6 +631,7 @@ public class WarrantSystem : MonoBehaviour
                 
         SetMessageAmesha();
         ameshaPanel.SetActive(false);
+        Time.timeScale = 1;
     }
 
 }
