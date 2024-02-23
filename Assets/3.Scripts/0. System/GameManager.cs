@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     {
         Test();
         FindInteraction();
+        ESC();
 
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -114,7 +115,6 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            Debug.Log("실행");
             Collider2D[] hits = Physics2D.OverlapCircleAll(Player.transform.position, interactionRange);
 
             foreach (Collider2D hit in hits)
@@ -122,7 +122,6 @@ public class GameManager : MonoBehaviour
                 Interaction inter = hit.GetComponent<Interaction>();
                 if (inter != null)
                 {
-                    Debug.Log("찾음");
                     hit.SendMessage("SendInteraction");
                     return;
                 }
@@ -130,5 +129,29 @@ public class GameManager : MonoBehaviour
         }
 
         
+    }
+
+    public void ESC()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            if (warrantOfAmeshaPanel.activeSelf)
+            {
+                warrantOfAmeshaPanel.SetActive(false);
+                Time.timeScale = 1f;
+            }
+        }
+    }
+
+    public void ChangeSparkOfKnowledge(int num)
+    {
+        sparkOfKnowledge += num;
+        GetItem();
+    }
+
+    public void ChangePieceOfEnlightenment(int num)
+    {
+        pieceOfEnlightenment += num;
+        GetItem();
     }
 }

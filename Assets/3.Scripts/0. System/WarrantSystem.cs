@@ -38,6 +38,8 @@ public class WarrantSystem : MonoBehaviour
         {"빠른 집행","저스티스","신속" }
     };
 
+    int randInt;
+
     public enum Rarity
     {
         Normal,
@@ -56,6 +58,8 @@ public class WarrantSystem : MonoBehaviour
 
     public SpentaWarrant[] maxSpentaWarrant = new SpentaWarrant[3];
     public SpentaWarrant[] nowSpentaWarrant = new SpentaWarrant[3];
+
+
 
     [Serializable]
     public class AmeshaWarrant
@@ -159,6 +163,14 @@ public class WarrantSystem : MonoBehaviour
     // 스펜타의 권능 눌렀을떄 (Test)
     public void GetWarrant()
     {
+        if (GameManager.instance.pieceOfEnlightenment <= 0)
+        {
+            Debug.Log("재화 부족");
+            return;
+        }
+
+        
+
         GameObject nowClicked = EventSystem.current.currentSelectedGameObject;
         string btnName = nowClicked.name;
 
@@ -188,6 +200,7 @@ public class WarrantSystem : MonoBehaviour
                 {
                     nowSpentaWarrant[i].basic1++;
                     ApplyWarrant(i, 0);
+                    GameManager.instance.ChangePieceOfEnlightenment(-1);
                 }
                 break;
 
@@ -196,6 +209,7 @@ public class WarrantSystem : MonoBehaviour
                 {
                     nowSpentaWarrant[i].basic2++;
                     ApplyWarrant(i, 1);
+                    GameManager.instance.ChangePieceOfEnlightenment(-1);
                 }
                 break;
 
@@ -204,6 +218,7 @@ public class WarrantSystem : MonoBehaviour
                 {
                     nowSpentaWarrant[i].intermediate++;
                     ApplyWarrant(i, 2);
+                    GameManager.instance.ChangePieceOfEnlightenment(-1);
                 }
                 break;
 
@@ -212,6 +227,7 @@ public class WarrantSystem : MonoBehaviour
                 {
                     nowSpentaWarrant[i].advanced++;
                     ApplyWarrant(i, 3);
+                    GameManager.instance.ChangePieceOfEnlightenment(-1);
                 }
                 break;
 
@@ -321,8 +337,15 @@ public class WarrantSystem : MonoBehaviour
     }
 
     // 아메샤의 권능 눌렀을때 (Test)
-    public void GetAmeshaWarrantTest()
+    public void GetAmeshaWarrant()
     {
+        if (GameManager.instance.sparkOfKnowledge <= 0)
+        {
+            Debug.Log("재화 부족");
+            return;
+        }
+
+        
         GameObject nowClicked = EventSystem.current.currentSelectedGameObject;
         string btnName = nowClicked.name;
 
@@ -352,33 +375,60 @@ public class WarrantSystem : MonoBehaviour
                 break;
         }
 
+        randInt = UnityEngine.Random.Range(0, 100);
+
         switch (btnName)
         {
             case "Normal":
                 if (nowAmeshaWarrant[i].normal < maxAmeshaWarrant[i].normal)
                 {
-                    nowAmeshaWarrant[i].normal++;
-                    ApplyAmeshaWarrant(i, 0);
+                    GameManager.instance.ChangeSparkOfKnowledge(-1);
+
+                    if (randInt < 75)
+                    {
+                        nowAmeshaWarrant[i].normal++;
+                        ApplyAmeshaWarrant(i, 0);
+                    }
+                    else
+                    {
+                        Debug.Log("강화 실패");
+                    }
                 }
                 break;
 
             case "Rare":
                 if (nowAmeshaWarrant[i].rare < maxAmeshaWarrant[i].rare)
                 {
-                    nowAmeshaWarrant[i].rare++;
-                    ApplyAmeshaWarrant(i, 1);
+                    GameManager.instance.ChangeSparkOfKnowledge(-1);
+
+                    if (randInt < 25)
+                    {
+                        nowAmeshaWarrant[i].rare++;
+                        ApplyAmeshaWarrant(i, 1);
+                    }
+                    else
+                    {
+                        Debug.Log("강화 실패");
+                    }
                 }
                 break;
 
             case "Legendary":
                 if (nowAmeshaWarrant[i].legendary < maxAmeshaWarrant[i].legendary)
                 {
-                    nowAmeshaWarrant[i].legendary++;
-                    ApplyAmeshaWarrant(i, 2);
+                    GameManager.instance.ChangeSparkOfKnowledge(-1);
+
+                    if (randInt < 5)
+                    {
+                        nowAmeshaWarrant[i].legendary++;
+                        ApplyAmeshaWarrant(i, 2);
+                    }
+                    else
+                    {
+                        Debug.Log("강화 실패");
+                    }
                 }
                 break;
-            
-
         }
 
         SetMessageAmesha();
@@ -528,7 +578,14 @@ public class WarrantSystem : MonoBehaviour
 
     public void OpenAmeshaWarrant()
     {
-        int randInt = UnityEngine.Random.Range(0, 100);
+        ameshaPanel.SetActive(true);
+        Time.timeScale = 0f;
+
+
+
+        // 이전 버전
+        /*
+        randInt = UnityEngine.Random.Range(0, 100);
 
         if (randInt < 70)
         {
@@ -545,7 +602,9 @@ public class WarrantSystem : MonoBehaviour
             rarityNum = 2;
             OpenAmeshaWarrant(Rarity.Legendary);
         }
+        */
     }
+    // 이전 버전
     public void OpenAmeshaWarrant(Rarity rarity)
     {
         int j = -1;
@@ -593,7 +652,7 @@ public class WarrantSystem : MonoBehaviour
     }
 
 
-    public void GetAmeshaWarrant()
+    public void GetAmeshaWarrantTest()
     {
         GameObject nowClicked = EventSystem.current.currentSelectedGameObject;
         string typeName = nowClicked.transform.parent.name;
