@@ -1,35 +1,35 @@
 /******************************************************************************
  * Spine Runtimes License Agreement
- * Last updated May 1, 2019. Replaces all prior versions.
+ * Last updated July 28, 2023. Replaces all prior versions.
  *
- * Copyright (c) 2013-2019, Esoteric Software LLC
+ * Copyright (c) 2013-2023, Esoteric Software LLC
  *
  * Integration of the Spine Runtimes into software or otherwise creating
  * derivative works of the Spine Runtimes is permitted under the terms and
  * conditions of Section 2 of the Spine Editor License Agreement:
  * http://esotericsoftware.com/spine-editor-license
  *
- * Otherwise, it is permitted to integrate the Spine Runtimes into software
- * or otherwise create derivative works of the Spine Runtimes (collectively,
+ * Otherwise, it is permitted to integrate the Spine Runtimes into software or
+ * otherwise create derivative works of the Spine Runtimes (collectively,
  * "Products"), provided that each user of the Products must obtain their own
  * Spine Editor license and redistribution of the Products in any form must
  * include this license and copyright notice.
  *
- * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE LLC "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN
- * NO EVENT SHALL ESOTERIC SOFTWARE LLC BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, BUSINESS
- * INTERRUPTION, OR LOSS OF USE, DATA, OR PROFITS) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
- * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * THE SPINE RUNTIMES ARE PROVIDED BY ESOTERIC SOFTWARE LLC "AS IS" AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL ESOTERIC SOFTWARE LLC BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES,
+ * BUSINESS INTERRUPTION, OR LOSS OF USE, DATA, OR PROFITS) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE
+ * SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-using UnityEngine;
-using System.Collections;
 using Spine.Unity;
+using System.Collections;
+using UnityEngine;
 
 namespace Spine.Unity.Examples {
 	public class SpineboyBeginnerView : MonoBehaviour {
@@ -39,7 +39,7 @@ namespace Spine.Unity.Examples {
 		public SpineboyBeginnerModel model;
 		public SkeletonAnimation skeletonAnimation;
 
-		public AnimationReferenceAsset run, idle, shoot, jump;
+		public AnimationReferenceAsset run, idle, aim, shoot, jump;
 		public EventDataReferenceAsset footstepEvent;
 
 		[Header("Audio")]
@@ -56,6 +56,8 @@ namespace Spine.Unity.Examples {
 		void Start () {
 			if (skeletonAnimation == null) return;
 			model.ShootEvent += PlayShoot;
+			model.StartAimEvent += StartPlayingAim;
+			model.StopAimEvent += StopPlayingAim;
 			skeletonAnimation.AnimationState.Event += HandleEvent;
 		}
 
@@ -68,12 +70,12 @@ namespace Spine.Unity.Examples {
 			if (skeletonAnimation == null) return;
 			if (model == null) return;
 
-			if ((skeletonAnimation.skeleton.ScaleX < 0) != model.facingLeft) {	// Detect changes in model.facingLeft
+			if ((skeletonAnimation.skeleton.ScaleX < 0) != model.facingLeft) {  // Detect changes in model.facingLeft
 				Turn(model.facingLeft);
 			}
 
 			// Detect changes in model.state
-			var currentModelState = model.state;
+			SpineBeginnerBodyState currentModelState = model.state;
 
 			if (previousViewState != currentModelState) {
 				PlayNewStableAnimation();
@@ -83,7 +85,7 @@ namespace Spine.Unity.Examples {
 		}
 
 		void PlayNewStableAnimation () {
-			var newModelState = model.state;
+			SpineBeginnerBodyState newModelState = model.state;
 			Animation nextAnimation;
 
 			// Add conditionals to not interrupt transient animations.
@@ -113,7 +115,7 @@ namespace Spine.Unity.Examples {
 
 		[ContextMenu("Check Tracks")]
 		void CheckTracks () {
-			var state = skeletonAnimation.AnimationState;
+			AnimationState state = skeletonAnimation.AnimationState;
 			Debug.Log(state.GetCurrent(0));
 			Debug.Log(state.GetCurrent(1));
 		}
@@ -121,15 +123,32 @@ namespace Spine.Unity.Examples {
 		#region Transient Actions
 		public void PlayShoot () {
 			// Play the shoot animation on track 1.
-			var track = skeletonAnimation.AnimationState.SetAnimation(1, shoot, false);
-			track.AttachmentThreshold = 1f;
-			track.MixDuration = 0f;
-			var empty = skeletonAnimation.state.AddEmptyAnimation(1, 0.5f, 0.1f);
-			empty.AttachmentThreshold = 1f;
+			TrackEntry shootTrack = skeletonAnimation.AnimationState.SetAnimation(1, shoot, false);
+			shootTrack.AttachmentThreshold = 1f;
+			shootTrack.MixDuration = 0f;
+			skeletonAnimation.state.AddEmptyAnimation(1, 0.5f, 0.1f);
+
+			// Play the aim animation on track 2 to aim at the mouse target.
+			TrackEntry aimTrack = skeletonAnimation.AnimationState.SetAnimation(2, aim, false);
+			aimTrack.AttachmentThreshold = 1f;
+			aimTrack.MixDuration = 0f;
+			skeletonAnimation.state.AddEmptyAnimation(2, 0.5f, 0.1f);
+
 			gunSource.pitch = GetRandomPitch(gunsoundPitchOffset);
 			gunSource.Play();
 			//gunParticles.randomSeed = (uint)Random.Range(0, 100);
 			gunParticles.Play();
+		}
+
+		public void StartPlayingAim () {
+			// Play the aim animation on track 2 to aim at the mouse target.
+			TrackEntry aimTrack = skeletonAnimation.AnimationState.SetAnimation(2, aim, true);
+			aimTrack.AttachmentThreshold = 1f;
+			aimTrack.MixDuration = 0f;
+		}
+
+		public void StopPlayingAim () {
+			skeletonAnimation.state.AddEmptyAnimation(2, 0.5f, 0.1f);
 		}
 
 		public void Turn (bool facingLeft) {

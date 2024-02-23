@@ -60,6 +60,9 @@ public class PlayerSpine : MonoBehaviour
                 animator.SetTrigger("cassatra");
                 break;
 
+            case PlayerAction.SkillName.Bohuman:
+                animator.SetTrigger("bohuman");
+                break;
 
 
         }
@@ -68,8 +71,12 @@ public class PlayerSpine : MonoBehaviour
     {
         switch (nonSkillName)
         {
-            case PlayerAction.NonSkillName.Block:
-                animator.SetTrigger("block");
+            case PlayerAction.NonSkillName.Parrying:
+                animator.SetTrigger("parrying");
+                break;
+
+            case PlayerAction.NonSkillName.Attack:
+                animator.SetTrigger("attack");
                 break;
 
         }

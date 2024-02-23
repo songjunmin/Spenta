@@ -12,7 +12,7 @@ public class PlayerAction : MonoBehaviour
 
     public enum NonSkillName
     {
-         Dash, Block, Attack
+         Dash, Parrying, Attack
     }
 
     void Start()
@@ -54,7 +54,11 @@ public class PlayerAction : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             // 막기 사용
-            NonSkillUse(NonSkillName.Block);
+            NonSkillUse(NonSkillName.Parrying);
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            NonSkillUse(NonSkillName.Attack);
         }
 
     }

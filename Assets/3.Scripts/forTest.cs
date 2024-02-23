@@ -85,7 +85,7 @@ public class forTest : MonoBehaviour
         }
 
         // 해당 애니메이션으로 변경
-        skeletonAnimation.state.SetAnimation(0, animClip, loop).timeScale = timeScale;
+        // skeletonAnimation.state.SetAnimation(0, animClip, loop).timeScale = timeScale;
         skeletonAnimation.loop = loop;
         skeletonAnimation.timeScale = timeScale;
 
@@ -116,9 +116,9 @@ public class forTest : MonoBehaviour
         {
             if (nowState == "Stand")
             {
-                entry.mixDuration = 3.6f;
+                //entry.mixDuration = 3.6f;
                 skeletonAnimation.state.SetAnimation(0, "Stand", true);
-                entry.mixDuration = 3.6f;
+                //entry.mixDuration = 3.6f;
             }
         }
     }
