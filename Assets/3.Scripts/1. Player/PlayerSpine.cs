@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine;
 using Spine.Unity;
+using System.Drawing;
 
 public class PlayerSpine : MonoBehaviour
 {
@@ -28,15 +29,18 @@ public class PlayerSpine : MonoBehaviour
     public bool isMove;
     public bool isJump;
 
+    Material material;
+
     void Start()
     {
         playerMove = gameObject.GetComponentInParent<PlayerMove>();
-
+        material = gameObject.GetComponent<MeshRenderer>().material;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (playerMove.moveDir == 0)
         {
             isMove = false;
@@ -100,19 +104,6 @@ public class PlayerSpine : MonoBehaviour
                 break;
 
         }
-    }
-
-                   
-
-
-    void _ASncAnimation(AnimationReferenceAsset animClip, bool loop, float timeScale)
-    {
-
-    }
-
-    void SetCurrentAnimation(AnimState _state)
-    {
-       
     }
 
     public void OnSpearBoxCollider()

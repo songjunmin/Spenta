@@ -34,7 +34,7 @@ public class Spear : MonoBehaviour
                 param[2] = 1;
                 collision.GetComponent<EnemyStatus>().Damaged(param[0], param[1], param[2]);
 
-                Instantiate(hitEffect, hitPlace.position, Quaternion.Euler(new Vector3(-270,-90,90)));
+                Instantiate(hitEffect, collision.bounds.ClosestPoint(transform.position), Quaternion.Euler(new Vector3(-270,-90,90)));
             }
         }
     }

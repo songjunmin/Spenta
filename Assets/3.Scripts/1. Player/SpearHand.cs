@@ -41,7 +41,10 @@ public class SpearHand : MonoBehaviour
                 }
                 collision.GetComponent<EnemyStatus>().Damaged(param[0], param[1], param[2]);
 
-                Instantiate(hitEffect, hitPlace.position, Quaternion.Euler(new Vector3(-270, -90, 90)));
+
+                
+                // Instantiate(hitEffect, hitPlace.position, Quaternion.Euler(new Vector3(-270, -90, 90)));
+                Instantiate(hitEffect, collision.bounds.ClosestPoint(transform.position), Quaternion.Euler(new Vector3(-270, -90, 90)));
             }
         }
     }

@@ -12,10 +12,11 @@ public class EnemyStatus : MonoBehaviour
 
     public Image hpBar;
 
+    BoxCollider2D bc;
     // Start is called before the first frame update
     void Start()
     {
-
+        bc = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -54,14 +55,31 @@ public class EnemyStatus : MonoBehaviour
 
     IEnumerator Dead()
     {
-        float timeRemain = 1f;
-        while (timeRemain > 0)
+        transform.GetChild(0).GetComponent<Animator>().enabled = false;
+        transform.GetChild(0).SendMessage("Dead");
+        
+        float timeRemain = 0f;
+
+
+        while (timeRemain < 1)
         {
-            timeRemain -= Time.deltaTime;
-            MeshRenderer mr = GetComponent<MeshRenderer>();
-            mr.material.color = new Color(mr.material.color.r, mr.material.color.g, mr.material.color.b, timeRemain);
+            timeRemain += Time.deltaTime;
+            if (transform.GetChild(0).localScale.x > 0)
+            {
+                transform.GetChild(0).rotation = Quaternion.Euler(0, 0, -65 * timeRemain);
+            }
+            else
+            {
+                transform.GetChild(0).rotation = Quaternion.Euler(0, 0, 65 * timeRemain);
+            }
+            bc.enabled = false;
+
+            transform.GetChild(0).position = transform.GetChild(0).position + new Vector3(0, -1f * Time.deltaTime, 0);
+
             yield return null;
 
         }
+
+        transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
     }
 }

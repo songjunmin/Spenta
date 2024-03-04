@@ -27,10 +27,11 @@ public class Asmodeus : MonoBehaviour
 
     Rigidbody2D rigid;
     float look;
+    public bool isDead;
 
     void Start()
     {
-        rigid = GetComponent<Rigidbody2D>();
+        rigid = GetComponentInParent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         SelectDir();
     }
@@ -38,6 +39,11 @@ public class Asmodeus : MonoBehaviour
 
     void Update()
     {
+        if (isDead)
+        {
+            return;
+        }
+
         // Debug.DrawLine(new Vector2(transform.position.x + 3f * look, transform.position.y + 7f), new Vector2(transform.position.x + 27f * look, transform.position.y),Color.blue);
 
         skillCurTime -= Time.deltaTime;
@@ -81,6 +87,13 @@ public class Asmodeus : MonoBehaviour
         }
     }
 
+
+    public void Dead()
+    {
+        rigid.velocity = Vector3.zero;
+        transform.parent.GetChild(1).GetChild(0).gameObject.SetActive(false);
+        isDead = true;
+    }
     public void CheckPlayer()
     {
         if (isPlayer)
@@ -166,7 +179,7 @@ public class Asmodeus : MonoBehaviour
         {
             if (hit.gameObject.layer == 3)
             {
-                hit.GetComponent<PlayerStatus>().Damaged(false, gameObject.GetComponent<EnemyStatus>().attackPower, dmg[1]);
+                hit.GetComponent<PlayerStatus>().Damaged(false, gameObject.GetComponentInParent<EnemyStatus>().attackPower, dmg[1]);
 
 
             }
