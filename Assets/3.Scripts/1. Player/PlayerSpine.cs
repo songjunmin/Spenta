@@ -8,12 +8,17 @@ public class PlayerSpine : MonoBehaviour
 {
     public SkeletonAnimation skeletonAnimation;
 
+    public Spine.AnimationState state;
+
     public SkeletonData skeletonData;
     public AnimationReferenceAsset[] AnimClip;
 
     public Animator animator;
 
     PlayerMove playerMove;
+
+    public BoxCollider2D spearBoxCollider;
+    public BoxCollider2D spearHandBoxCollider;
     public enum AnimState
     {
         Block, Blow, Knock, Lion, Run, Shot, Stand
@@ -21,6 +26,7 @@ public class PlayerSpine : MonoBehaviour
 
     
     public bool isMove;
+    public bool isJump;
 
     void Start()
     {
@@ -41,6 +47,16 @@ public class PlayerSpine : MonoBehaviour
         }
 
         animator.SetBool("isMove", isMove);
+
+        if (gameObject.GetComponentInParent<PlayerMove>().isJump == 0)
+        {
+            isJump = false;
+        }
+        else
+        {
+            isJump = true;
+        }
+        animator.SetBool("isJump", isJump);
     }
 
     void SpineMng()
@@ -79,6 +95,10 @@ public class PlayerSpine : MonoBehaviour
                 animator.SetTrigger("attack");
                 break;
 
+            case PlayerAction.NonSkillName.Dash:
+                animator.SetTrigger("dash");
+                break;
+
         }
     }
 
@@ -93,5 +113,24 @@ public class PlayerSpine : MonoBehaviour
     void SetCurrentAnimation(AnimState _state)
     {
        
+    }
+
+    public void OnSpearBoxCollider()
+    {
+        spearBoxCollider.enabled = true;
+    }
+
+    public void OffSpearBoxCollider()
+    {
+        spearBoxCollider.enabled = false;
+    }
+    public void OnSpearHandBoxCollider()
+    {
+        spearHandBoxCollider.enabled = true;
+    }
+
+    public void OffSpearHandBoxCollider()
+    {
+        spearHandBoxCollider.enabled = false;
     }
 }

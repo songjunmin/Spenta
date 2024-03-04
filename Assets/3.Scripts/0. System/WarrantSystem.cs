@@ -336,7 +336,7 @@ public class WarrantSystem : MonoBehaviour
         }
     }
 
-    // 아메샤의 권능 눌렀을때 (Test)
+    // 아메샤의 권능 눌렀을때
     public void GetAmeshaWarrant()
     {
         if (GameManager.instance.sparkOfKnowledge <= 0)

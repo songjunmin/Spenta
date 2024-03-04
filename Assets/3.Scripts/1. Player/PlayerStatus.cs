@@ -99,6 +99,9 @@ public class PlayerStatus : MonoBehaviour
     public bool spentaAbsortion;
     public float trapDmg;
 
+    // ¾Æ»þ 
+    public bool isAhsaEnforce = false;
+
     // ?
     public float totalAmount;
     void Start()
@@ -214,5 +217,11 @@ public class PlayerStatus : MonoBehaviour
 
         ChangeHp();
 
+    }
+
+    public void HpAbsorption(float dmg)
+    {
+        hp += damageAbsortion * dmg / 100;
+        ChangeHp();
     }
 }

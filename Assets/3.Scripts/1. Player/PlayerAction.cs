@@ -60,6 +60,10 @@ public class PlayerAction : MonoBehaviour
         {
             NonSkillUse(NonSkillName.Attack);
         }
+        else if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            NonSkillUse(NonSkillName.Dash);
+        }
 
     }
 
@@ -69,6 +73,7 @@ public class PlayerAction : MonoBehaviour
         {
             gameObject.GetComponent<PlayerStatus>().Action(skillName);
             gameObject.GetComponentInChildren<PlayerSpine>().Action(skillName);
+            gameObject.GetComponentInChildren<PlayerSkill>().Action(skillName);
         }
 
     }
@@ -78,6 +83,7 @@ public class PlayerAction : MonoBehaviour
         {
             gameObject.GetComponent<PlayerStatus>().Action(nonSkillName);
             gameObject.GetComponentInChildren<PlayerSpine>().Action(nonSkillName);
+            gameObject.GetComponentInChildren<PlayerSkill>().Action(nonSkillName);
         }
 
     }

@@ -9,6 +9,7 @@ public class PlayerMove : MonoBehaviour
 {
     public float speed;
     public float moveDir;
+    public float lookDir;
     public float jumpPower;
     public int isJump;
     public float boxSizeX;
@@ -21,6 +22,10 @@ public class PlayerMove : MonoBehaviour
 
     Animator animator;
     public AnimatorStateInfo animState;
+    public string animName;
+
+    Vector2 dashSpeed;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +42,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         animState = animator.GetCurrentAnimatorStateInfo(0);
+        animName = animState.shortNameHash.ToString();
 
         // 움직임
         Move();
@@ -47,6 +53,8 @@ public class PlayerMove : MonoBehaviour
         // Test
         UnityEngine.Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 0.01f), Vector2.down, Color.red);
 
+        // 대쉬
+        Dash();
     }
 
     void Move()
@@ -62,6 +70,7 @@ public class PlayerMove : MonoBehaviour
         {
             rigid.velocity = new Vector2(moveDir * speed, rigid.velocity.y);
             transform.localScale = new Vector3(moveDir, 1f, 1f);
+            lookDir = moveDir;
         }
         else
         {
@@ -108,13 +117,25 @@ public class PlayerMove : MonoBehaviour
 
             if (isJump == 0)
             {
-                isJump = 1;
+                isJump++;
                 // 점프 전 y축 속도 초기화
                 rigid.velocity = new Vector2(rigid.velocity.x, 0);
 
                 // 점프
                 rigid.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
             }
+        }
+    }
+    public void ChangeVelocity(Vector2 vector2)
+    {
+        dashSpeed = vector2;
+    }
+
+    void Dash()
+    {
+        if (animState.IsName("Lion"))
+        {
+            rigid.velocity = dashSpeed;
         }
     }
 }

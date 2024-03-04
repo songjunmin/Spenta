@@ -7,50 +7,55 @@ public class PlayerSkill : MonoBehaviour
     public Animator animator;
     
     PlayerStatus playerStatus;
+    PlayerMove playerMove;
+
+    public float dashSpeed;
+
+    public GameObject ashaFire;
 
     private void Start()
     {
         playerStatus = gameObject.GetComponentInParent<PlayerStatus>();
+        playerMove = gameObject.GetComponentInParent<PlayerMove>();
     }
-    public void UseSkill(PlayerAction.SkillName skillName)
+    public void Action(PlayerAction.NonSkillName nonSkillName)
+    {
+        switch (nonSkillName)
+        {
+            case PlayerAction.NonSkillName.Dash:
+                break;
+
+            case PlayerAction.NonSkillName.Parrying:
+
+                break;
+        }
+    }
+
+    public void Action(PlayerAction.SkillName skillName)
     {
         switch (skillName)
         {
-            case PlayerAction.SkillName.Bohuman:
-
-                break;
-
-            case PlayerAction.SkillName.Cassatra:
-
-                break;
-
             case PlayerAction.SkillName.Asha:
-
+                
                 break;
 
-               
+            default:
+                break;
         }
-
-
     }
 
-    public void Asha()
+    public void DashOn()
     {
-        float dmg = playerStatus.attackPower * playerStatus.skillDmg[2];
+        playerMove.ChangeVelocity(new Vector2(dashSpeed * playerMove.lookDir, 0));
+    }
 
-        Vector2 point1 = new Vector2(transform.position.x + playerStatus.skillRange[2].GetRange1() , transform.position.y + 10f);
-        Vector2 point2 = new Vector2(transform.position.x + playerStatus.skillRange[2].GetRange2(), transform.position.y);
+    public void DashOff()
+    {
+        playerMove.ChangeVelocity(new Vector2(0, 0));
+    }
 
-        Collider2D[] colls = Physics2D.OverlapAreaAll(point1, point2);
-
-        foreach(Collider2D coll in colls)
-        {
-            if (coll.tag == "Enemy")
-            {
-                coll.GetComponent<EnemyStatus>().Damaged(playerStatus.attackPower, playerStatus.skillDmg[2]);
-            }
-        }
-
-        Debug.Log(dmg);
+    public void AshaFire()
+    {
+        Instantiate(ashaFire, transform.position + new Vector3(0f,7f,0f), Quaternion.identity);
     }
 }
