@@ -13,7 +13,10 @@ public class EnemyStatus : MonoBehaviour
     public Image hpBar;
 
     BoxCollider2D bc;
-    // Start is called before the first frame update
+
+    public GameObject sparkOfKnowledge;
+    public GameObject pieceOfEnlightenment;
+
     void Start()
     {
         bc = GetComponent<BoxCollider2D>();
@@ -61,10 +64,23 @@ public class EnemyStatus : MonoBehaviour
         float timeRemain = 0f;
 
 
+        string enemyName = gameObject.name;
+
+       
+        switch (enemyName)
+        {
+            case "Asmodeus":
+            case "Bear":
+                GameObject tmp = Instantiate(pieceOfEnlightenment, transform.position, Quaternion.identity);
+                tmp.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 4,ForceMode2D.Impulse);
+                break;
+
+        }
+
         while (timeRemain < 1)
         {
             timeRemain += Time.deltaTime;
-            if (transform.GetChild(0).localScale.x > 0)
+            if (transform.localScale.x > 0)
             {
                 transform.GetChild(0).rotation = Quaternion.Euler(0, 0, -65 * timeRemain);
             }

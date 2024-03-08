@@ -74,7 +74,7 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
-            rigid.velocity = new Vector2(0, rigid.velocity.y);
+            // rigid.velocity = new Vector2(0, rigid.velocity.y);
         }
     }
 

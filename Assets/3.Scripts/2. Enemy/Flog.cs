@@ -1,14 +1,12 @@
-using Spine;
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Asmodeus : MonoBehaviour
+public class Flog : MonoBehaviour
 {
     Animator anim;
-
-    public BoxCollider2D weapon;
 
     // 0 : 공격 계수 / 1 : 스킬 계수
     public float[] dmg;
@@ -24,18 +22,16 @@ public class Asmodeus : MonoBehaviour
     public float skillCurTime;
 
     public int moveDir;
-    public float moveSpeed;
+    public float movePower;
 
     Rigidbody2D rigid;
     float look;
     public bool isDead;
 
-    public GameObject[] hearts;
     void Start()
     {
         rigid = GetComponentInParent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        SelectDir();
     }
 
 
@@ -46,6 +42,11 @@ public class Asmodeus : MonoBehaviour
             return;
         }
 
+        if (!animState.IsName("walking"))
+        {
+            rigid.velocity = Vector2.zero;
+        }
+
         // Debug.DrawLine(new Vector2(transform.position.x + 3f * look, transform.position.y + 7f), new Vector2(transform.position.x + 27f * look, transform.position.y),Color.blue);
 
         skillCurTime -= Time.deltaTime;
@@ -53,13 +54,20 @@ public class Asmodeus : MonoBehaviour
 
         animState = anim.GetCurrentAnimatorStateInfo(0);
 
-        Move();
         CheckPlayer();
 
         if (isPlayer && animState.IsName("idle"))
         {
-            if (skillCurTime < 0)
+            
+
+            if (Mathf.Abs(GameManager.instance.Player.transform.position.x - transform.position.x) > 5f)
             {
+                Move();
+            }
+            else if (skillCurTime < 0)
+            {
+                Debug.Log(1);
+
                 Skill();
                 skillCurTime = skillCoolTime;
             }
@@ -75,6 +83,7 @@ public class Asmodeus : MonoBehaviour
 
             }
             
+
         }
         else if (isPlayer)
         {
@@ -103,7 +112,7 @@ public class Asmodeus : MonoBehaviour
             return;
         }
 
-        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x -20f, transform.position.y - 12f), new Vector2(transform.position.x + 20f, transform.position.y));
+        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x - 20f, transform.position.y - 12f), new Vector2(transform.position.x + 20f, transform.position.y));
 
         foreach (Collider2D hit in hits)
         {
@@ -118,56 +127,34 @@ public class Asmodeus : MonoBehaviour
 
     public void Move()
     {
-        
-        if (!animState.IsName("idle"))
-        {
-            rigid.velocity = Vector2.zero;
-        }
+        anim.SetTrigger("move");
+    }
 
-        else if (!isPlayer)
+    public void MoveAddForce()
+    {
+        if (!isPlayer)
         {
-            rigid.velocity = new Vector2(moveDir * moveSpeed, rigid.velocity.y);
+            moveDir = Random.Range(-1, 1);
+
+            if (moveDir == 0)
+            {
+                moveDir++;
+            }
+
+            rigid.AddForce(new Vector2(moveDir * movePower, rigid.velocity.y), ForceMode2D.Impulse);
         }
         else if (GameManager.instance.Player.transform.position.x < transform.position.x - 10f)
         {
             transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
-            rigid.velocity = new Vector2(-1 * moveSpeed, rigid.velocity.y);
+            rigid.AddForce(new Vector2(-1 * movePower, rigid.velocity.y), ForceMode2D.Impulse);
         }
         else if (GameManager.instance.Player.transform.position.x > transform.position.x + 10f)
         {
-
             transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
-            rigid.velocity = new Vector2(moveSpeed, rigid.velocity.y);
-        }
-        else
-        {
-            rigid.velocity = Vector2.zero;
+            rigid.AddForce(new Vector2(1 * movePower, rigid.velocity.y), ForceMode2D.Impulse);
         }
     }
 
-    public void SelectDir()
-    {
-        if (moveDir != 0)
-        {
-            moveDir = 0;
-        }
-        else
-        {
-            int randInt = Random.Range(0, 2);
-            if (randInt == 0)
-            {
-                moveDir--;
-
-            }
-            else
-            {
-                moveDir++;
-            }
-            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * moveDir, transform.parent.localScale.y);
-        }
-
-        Invoke("SelectDir", 2f);
-    }
     public void Skill()
     {
         look = transform.parent.localScale.x / 4;
@@ -182,16 +169,6 @@ public class Asmodeus : MonoBehaviour
         anim.SetTrigger("attack");
     }
 
-    public void AttackOn()
-    {
-        weapon.enabled = true;
-    }
-
-    public void AttackOff()
-    {
-        weapon.enabled = false;
-    }
-
     public int GetNowAnim()
     {
         if (animState.IsName("attack"))
@@ -204,33 +181,4 @@ public class Asmodeus : MonoBehaviour
         }
     }
 
-    public void SetHeartLoc()
-    {
-        Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0,4,0);
-        hearts[0].transform.position = loc;
-        hearts[1].transform.position = loc;
-
-        hearts[0].GetComponent<SkeletonUtilityBone>().scale = false;
-        hearts[1].GetComponent<SkeletonUtilityBone>().scale = false;
-    }
-
-    public void CheckPlayerInHeart()
-    {
-        Collider2D[] hits = Physics2D.OverlapBoxAll(hearts[0].transform.position, new Vector2(3, 3), 0);
-
-        foreach (Collider2D hit in hits)
-        {
-            if (hit.gameObject.tag == "Player")
-            {
-                SkillDmg();
-                return;
-            }
-        }
-
-        Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0, 4, 0);
-
-
-        hearts[0].GetComponent<SkeletonUtilityBone>().scale = true;
-        hearts[1].GetComponent<SkeletonUtilityBone>().scale = true;
-    }
 }

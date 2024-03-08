@@ -1,10 +1,8 @@
-using Spine;
-using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Asmodeus : MonoBehaviour
+public class Bear : MonoBehaviour
 {
     Animator anim;
 
@@ -30,7 +28,6 @@ public class Asmodeus : MonoBehaviour
     float look;
     public bool isDead;
 
-    public GameObject[] hearts;
     void Start()
     {
         rigid = GetComponentInParent<Rigidbody2D>();
@@ -74,7 +71,7 @@ public class Asmodeus : MonoBehaviour
                 }
 
             }
-            
+
         }
         else if (isPlayer)
         {
@@ -103,7 +100,7 @@ public class Asmodeus : MonoBehaviour
             return;
         }
 
-        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x -20f, transform.position.y - 12f), new Vector2(transform.position.x + 20f, transform.position.y));
+        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x - 20f, transform.position.y - 12f), new Vector2(transform.position.x + 20f, transform.position.y));
 
         foreach (Collider2D hit in hits)
         {
@@ -118,7 +115,7 @@ public class Asmodeus : MonoBehaviour
 
     public void Move()
     {
-        
+
         if (!animState.IsName("idle"))
         {
             rigid.velocity = Vector2.zero;
@@ -175,7 +172,17 @@ public class Asmodeus : MonoBehaviour
     }
     public void SkillDmg()
     {
-        GameManager.instance.Player.GetComponent<PlayerStatus>().Damaged(false, gameObject.GetComponentInParent<EnemyStatus>().attackPower, dmg[1]);
+        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x + 3f * look, transform.position.y + 7f), new Vector2(transform.position.x + 27f * look, transform.position.y));
+
+        foreach (Collider2D hit in hits)
+        {
+            if (hit.gameObject.layer == 3)
+            {
+                hit.GetComponent<PlayerStatus>().Damaged(false, gameObject.GetComponentInParent<EnemyStatus>().attackPower, dmg[1]);
+
+
+            }
+        }
     }
     public void Attack()
     {
@@ -202,35 +209,5 @@ public class Asmodeus : MonoBehaviour
         {
             return 1;
         }
-    }
-
-    public void SetHeartLoc()
-    {
-        Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0,4,0);
-        hearts[0].transform.position = loc;
-        hearts[1].transform.position = loc;
-
-        hearts[0].GetComponent<SkeletonUtilityBone>().scale = false;
-        hearts[1].GetComponent<SkeletonUtilityBone>().scale = false;
-    }
-
-    public void CheckPlayerInHeart()
-    {
-        Collider2D[] hits = Physics2D.OverlapBoxAll(hearts[0].transform.position, new Vector2(3, 3), 0);
-
-        foreach (Collider2D hit in hits)
-        {
-            if (hit.gameObject.tag == "Player")
-            {
-                SkillDmg();
-                return;
-            }
-        }
-
-        Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0, 4, 0);
-
-
-        hearts[0].GetComponent<SkeletonUtilityBone>().scale = true;
-        hearts[1].GetComponent<SkeletonUtilityBone>().scale = true;
     }
 }

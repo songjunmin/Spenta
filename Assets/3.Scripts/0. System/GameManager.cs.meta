@@ -3,7 +3,15 @@ guid: f6c715728b86bb640ad5fe9827168c3f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Player: {instanceID: 0}
+  - piecePrefab: {fileID: 7358199284736329595, guid: f42f0c7ce79667f4c9902320f07c34c9, type: 3}
+  - sparkPrefab: {fileID: 8900148028448877359, guid: 58b9aa639359dee42b51d6a646b0cc5a, type: 3}
+  - hpBar: {instanceID: 0}
+  - pieceOfEnlightenmentText: {instanceID: 0}
+  - sparkOfKnowledgeText: {instanceID: 0}
+  - warrantOfSpentaPanel: {instanceID: 0}
+  - warrantOfAmeshaPanel: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

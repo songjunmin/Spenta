@@ -194,10 +194,18 @@ public class PlayerStatus : MonoBehaviour
     {
         float totalDamage = atkPower * coefficient;
 
+        float force;
+
         // 함정 등의 고정 데미지
         if (!trueDamaged)
         {
             totalDamage /= (100 + defense);
+            force = 20f;
+        }
+
+        else
+        {
+            force = 40f;
         }
 
         if (shield > 0)
@@ -214,6 +222,8 @@ public class PlayerStatus : MonoBehaviour
         }
 
         peaceTime = needForPeace;
+
+        GetComponent<Rigidbody2D>().AddForce(new Vector2(transform.localScale.x * -1, 0.5f) * force,ForceMode2D.Impulse);
 
         ChangeHp();
 

@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     // 지식의 불꽃
     public float sparkOfKnowledge;
 
+
     public Image hpBar;
 
     public Text pieceOfEnlightenmentText;
