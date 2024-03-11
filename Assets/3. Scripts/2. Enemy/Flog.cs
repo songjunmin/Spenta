@@ -10,6 +10,7 @@ public class Flog : MonoBehaviour
 
     // 0 : 공격 계수 / 1 : 스킬 계수
     public float[] dmg;
+    public float attackPower;
 
     public AnimatorStateInfo animState;
 
@@ -28,8 +29,11 @@ public class Flog : MonoBehaviour
     public float moveSpeed;
 
     Rigidbody2D rigid;
-    float look;
     public bool isDead;
+
+    public GameObject poison;
+
+    public float distance;
 
     void Start()
     {
@@ -37,6 +41,16 @@ public class Flog : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+
+
+    public float startX, startY, lenX, lenY;
+    private void OnDrawGizmos()
+    {
+        // 공격 사거리 11
+        // 스킬 사거리 23
+        Gizmos.color = Color.blue;
+        Gizmos.DrawCube(new Vector3(startX * transform.parent.localScale.x, startY, 0) + transform.position, new Vector3(lenX, lenY, 0));
+    }
 
     void Update()
     {
@@ -50,8 +64,6 @@ public class Flog : MonoBehaviour
             rigid.velocity = Vector2.zero;
         }
 
-        // Debug.DrawLine(new Vector2(transform.position.x + 3f * look, transform.position.y + 7f), new Vector2(transform.position.x + 27f * look, transform.position.y),Color.blue);
-
         skillCurTime -= Time.deltaTime;
         attackCurTime -= Time.deltaTime;
         moveCurTime -= Time.deltaTime;
@@ -60,24 +72,33 @@ public class Flog : MonoBehaviour
 
         CheckPlayer();
 
+        distance = Mathf.Abs(GameManager.instance.Player.transform.position.x - transform.position.x);
+        if (GameManager.instance.Player.transform.position.x > transform.position.x)
+        {
+            moveDir = 1;
+        }
+        else
+        {
+            moveDir = -1;
+        }
+
+
         if (isPlayer && animState.IsName("idle"))
         {
             
-
-            if (Mathf.Abs(GameManager.instance.Player.transform.position.x - transform.position.x) > 5f && moveCurTime < 0)
+            if (distance < 18 && skillCurTime < 0)
             {
-                Move();
-                moveCurTime = moveCoolTime;
-            }
-            else if (skillCurTime < 0)
-            {
-                Debug.Log(1);
-
                 Skill();
                 skillCurTime = skillCoolTime;
             }
 
-            else if (attackCurTime < 0)
+            else if (distance > 7f && moveCurTime < 0)
+            {
+                Move();
+                moveCurTime = moveCoolTime;
+            }
+
+            else if (distance < 7 && attackCurTime < 0)
             {
                 if (GameManager.instance.Player.transform.position.x < transform.position.x + 10f &&
                     GameManager.instance.Player.transform.position.x > transform.position.x - 10f)
@@ -85,20 +106,6 @@ public class Flog : MonoBehaviour
                     Attack();
                     attackCurTime = attackCoolTime;
                 }
-
-            }
-            
-
-        }
-        else if (isPlayer)
-        {
-            if (GameManager.instance.Player.transform.position.x < transform.position.x)
-            {
-                transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
-            }
-            else
-            {
-                transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
             }
         }
     }
@@ -106,6 +113,7 @@ public class Flog : MonoBehaviour
 
     public void Dead()
     {
+        anim.SetTrigger("dead");
         rigid.velocity = Vector3.zero;
         transform.parent.GetChild(1).GetChild(0).gameObject.SetActive(false);
         isDead = true;
@@ -132,6 +140,14 @@ public class Flog : MonoBehaviour
 
     public void Move()
     {
+        if (GameManager.instance.Player.transform.position.x < transform.position.x)
+        {
+            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
+        }
+        else
+        {
+            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
+        }
         anim.SetTrigger("move");
     }
 
@@ -147,15 +163,31 @@ public class Flog : MonoBehaviour
 
     public void Skill()
     {
-        look = transform.parent.localScale.x / 4;
+        if (GameManager.instance.Player.transform.position.x < transform.position.x)
+        {
+            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
+        }
+        else
+        {
+            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
+        }
         anim.SetTrigger("skill");
     }
     public void SkillDmg()
     {
-        GameManager.instance.Player.GetComponent<PlayerStatus>().Damaged(false, gameObject.GetComponentInParent<EnemyStatus>().attackPower, dmg[1]);
+        float dmgs = dmg[1] * (23 - distance) / 4;
+        GameManager.instance.Player.GetComponent<PlayerStatus>().Damaged(false,attackPower, dmgs);
     }
     public void Attack()
     {
+        if (GameManager.instance.Player.transform.position.x < transform.position.x)
+        {
+            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
+        }
+        else
+        {
+            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
+        }
         anim.SetTrigger("attack");
     }
 
@@ -171,4 +203,48 @@ public class Flog : MonoBehaviour
         }
     }
 
+
+    public void SetPoisonLoc()
+    {
+        Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0, 4, 0);
+        poison.transform.position = loc;
+
+        
+        if ((loc.x - transform.position.x) * transform.parent.localScale.x < 0)
+        {
+            poison.GetComponent<SkeletonUtilityBone>().scale = true;
+        }
+        else
+        {
+            poison.GetComponent<SkeletonUtilityBone>().scale = false;
+        }
+    }
+
+    public void CheckPlayerLoc()
+    {
+        if (poison.GetComponent<SkeletonUtilityBone>().scale)
+        {
+            return;
+        }
+
+        GetComponent<MeshRenderer>().sortingOrder = 3;
+
+        if (Mathf.Abs(poison.transform.position.x - GameManager.instance.Player.transform.position.x) < 3)
+        {
+            Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0, 4, 0);
+            poison.transform.position = loc;
+
+            GameManager.instance.Player.GetComponent<PlayerStatus>().Damaged(false, attackPower, dmg[0]);
+
+        }
+        else
+        {
+            poison.GetComponent<SkeletonUtilityBone>().scale = false;
+        }
+    }
+
+    public void OffLayer()
+    {
+        GetComponent<MeshRenderer>().sortingOrder = 0;
+    }
 }

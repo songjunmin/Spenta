@@ -12,6 +12,7 @@ public class Asmodeus : MonoBehaviour
 
     // 0 : 공격 계수 / 1 : 스킬 계수
     public float[] dmg;
+    public float attackPower;
 
     public AnimatorStateInfo animState;
 
@@ -78,23 +79,12 @@ public class Asmodeus : MonoBehaviour
             }
             
         }
-        else if (isPlayer)
-        {
-            if (GameManager.instance.Player.transform.position.x < transform.position.x)
-            {
-                transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
-            }
-            else
-            {
-                transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
-            }
-        }
+
     }
 
 
     public void Dead()
     {
-        anim.SetTrigger("dead");
         anim.SetTrigger("dead");
         rigid.velocity = Vector3.zero;
         transform.parent.GetChild(1).GetChild(0).gameObject.SetActive(false);
@@ -122,16 +112,17 @@ public class Asmodeus : MonoBehaviour
 
     public void Move()
     {
-        
+        // 다른 동작 중이라면
         if (!animState.IsName("idle"))
         {
             rigid.velocity = Vector2.zero;
         }
-
+        // 아직 플레이어를 찾지 못했다면
         else if (!isPlayer)
         {
             rigid.velocity = new Vector2(moveDir * moveSpeed, rigid.velocity.y);
         }
+        // 만약 플레이어를 찾았고, 플레이어와의 거리가 멀다면
         else if (GameManager.instance.Player.transform.position.x < transform.position.x - 10f)
         {
             transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
@@ -139,7 +130,6 @@ public class Asmodeus : MonoBehaviour
         }
         else if (GameManager.instance.Player.transform.position.x > transform.position.x + 10f)
         {
-
             transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
             rigid.velocity = new Vector2(moveSpeed, rigid.velocity.y);
         }
@@ -174,15 +164,33 @@ public class Asmodeus : MonoBehaviour
     }
     public void Skill()
     {
+        if (GameManager.instance.Player.transform.position.x < transform.position.x)
+        {
+            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
+        }
+        else
+        {
+            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
+        }
+
         look = transform.parent.localScale.x / 4;
         anim.SetTrigger("skill");
     }
     public void SkillDmg()
     {
-        GameManager.instance.Player.GetComponent<PlayerStatus>().Damaged(false, gameObject.GetComponentInParent<EnemyStatus>().attackPower, dmg[1]);
+        GameManager.instance.Player.GetComponent<PlayerStatus>().Damaged(false,attackPower, dmg[1]);
     }
     public void Attack()
     {
+        if (GameManager.instance.Player.transform.position.x < transform.position.x)
+        {
+            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
+        }
+        else
+        {
+            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
+        }
+
         anim.SetTrigger("attack");
     }
     public void AttackOn()
@@ -213,31 +221,56 @@ public class Asmodeus : MonoBehaviour
         hearts[0].transform.position = loc;
         hearts[1].transform.position = loc;  
 
-        StartCoroutine(SetHeartSize());
+        if ((loc.x - transform.position.x) * transform.parent.localScale.x < 0)
+        {
+            StartCoroutine(SetHeartSize(false));
+        }
+        else
+        {
+            StartCoroutine(SetHeartSize(true));
+        }
     }
 
-    IEnumerator SetHeartSize()
+    IEnumerator SetHeartSize(bool canStart)
     {
-        float flowedTime = 0f;
-
-        while (flowedTime < 1)
+        if (canStart)
         {
-            flowedTime += Time.deltaTime;
-            hearts[0].transform.localScale = new Vector3(flowedTime * 3, flowedTime * 3, 0);
-            hearts[1].transform.localScale = new Vector3(flowedTime * 3, flowedTime * 3, 0);
-            hearts[2].transform.localScale = new Vector3(flowedTime * 3, flowedTime * 3, 0);
-            yield return null;
-        }
+            float flowedTime = 0f;
 
+            while (flowedTime < 1)
+            {
+                flowedTime += Time.deltaTime;
+                hearts[0].transform.localScale = new Vector3(flowedTime * 3, flowedTime * 3, 0);
+                hearts[1].transform.localScale = new Vector3(flowedTime * 3, flowedTime * 3, 0);
+                hearts[2].transform.localScale = new Vector3(flowedTime * 3, flowedTime * 3, 0);
+                yield return null;
+            }
+        }
+        else
+        {
+            hearts[0].transform.localScale = new Vector3(0, 0, 0);
+        }
     }
 
     public void CheckPlayerInHeart()
     {
+        if (hearts[0].transform.localScale.x == 0)
+        {
+            return;
+        }
         hearts[0].transform.localScale = new Vector3(0, 0, 0);
         hearts[1].transform.localScale = new Vector3(0, 0, 0);
         hearts[2].transform.localScale = new Vector3(0, 0, 0);
 
-        Vector3 targetLoc = hearts[0].transform.position + new Vector3(1.4f, -1.2f, 0f);
+        Vector3 targetLoc;
+        if (transform.parent.localScale.x > 0)
+        {
+            targetLoc = hearts[0].transform.position + new Vector3(1.4f, -1.2f, 0f);
+        }
+        else
+        {
+            targetLoc = hearts[0].transform.position + new Vector3(1.4f, 1.2f, 0f);
+        }
 
         Collider2D[] hits = Physics2D.OverlapBoxAll(targetLoc, new Vector2(8.5f, 7), 0);
 
@@ -246,6 +279,7 @@ public class Asmodeus : MonoBehaviour
             if (hit.gameObject.tag == "Player")
             {
                 Debug.Log("피격");
+                GameManager.instance.GetAbnormal(GameManager.AbnormalStatus.둔화, 10f);
                 // SkillDmg();
                 return;
             }

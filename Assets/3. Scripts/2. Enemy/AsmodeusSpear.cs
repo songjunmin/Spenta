@@ -24,7 +24,7 @@ public class AsmodeusSpear : MonoBehaviour
             if (collision.tag == "Player")
             {
                 Asmodeus asmodeus = es.gameObject.GetComponentInChildren<Asmodeus>();
-                param[0] = es.attackPower;
+                param[0] = asmodeus.attackPower;
                 param[1] = asmodeus.dmg[asmodeus.GetNowAnim()];
                 collision.GetComponent<PlayerStatus>().Damaged(false,param[0], param[1]);
             }

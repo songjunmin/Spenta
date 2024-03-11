@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class Bear : MonoBehaviour
+public class Zombie : MonoBehaviour
 {
     Animator anim;
 
@@ -29,6 +28,7 @@ public class Bear : MonoBehaviour
 
     public float startX, startY, lenX, lenY;
 
+    public float distance;
     void Start()
     {
         rigid = GetComponentInParent<Rigidbody2D>();
@@ -38,8 +38,8 @@ public class Bear : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        // 공격 사거리 11
-        // 스킬 사거리 23
+        // 공격 사거리 9
+        // 스킬 사거리 24
         Gizmos.color = Color.blue;
         Gizmos.DrawCube(new Vector3(startX * transform.parent.localScale.x, startY, 0) + transform.position, new Vector3(lenX, lenY, 0));
     }
@@ -56,30 +56,23 @@ public class Bear : MonoBehaviour
 
         animState = anim.GetCurrentAnimatorStateInfo(0);
 
+        distance = Mathf.Abs(GameManager.instance.Player.transform.position.x - transform.position.x);
+
         Move();
         CheckPlayer();
 
         if (isPlayer && animState.IsName("idle"))
         {
-            if (skillCurTime < 0)
+            if (skillCurTime < 0 && distance < 23)
             {
-                if (GameManager.instance.Player.transform.position.x < transform.position.x + 23f &&
-                    GameManager.instance.Player.transform.position.x > transform.position.x - 23f)
-                {
-                    Skill();
-                    skillCurTime = skillCoolTime;
-                }
-                
+                Skill();
+                skillCurTime = skillCoolTime;
             }
 
-            else if (attackCurTime < 0)
+            else if (attackCurTime < 0 && distance < 9f)
             {
-                if (GameManager.instance.Player.transform.position.x < transform.position.x + 11f &&
-                    GameManager.instance.Player.transform.position.x > transform.position.x - 11f)
-                {
-                    Attack();
-                    attackCurTime = attackCoolTime;
-                }
+                Attack();
+                attackCurTime = attackCoolTime;
             }
         }
     }
@@ -114,7 +107,6 @@ public class Bear : MonoBehaviour
 
     public void Move()
     {
-
         if (!animState.IsName("idle"))
         {
             rigid.velocity = Vector2.zero;
@@ -124,16 +116,19 @@ public class Bear : MonoBehaviour
         {
             rigid.velocity = new Vector2(moveDir * moveSpeed, rigid.velocity.y);
         }
-        else if (GameManager.instance.Player.transform.position.x < transform.position.x - 10f)
-        {
-            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
-            rigid.velocity = new Vector2(-1 * moveSpeed, rigid.velocity.y);
-        }
-        else if (GameManager.instance.Player.transform.position.x > transform.position.x + 10f)
-        {
 
-            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
-            rigid.velocity = new Vector2(moveSpeed, rigid.velocity.y);
+        else if (distance > 9f)
+        {
+            if (GameManager.instance.Player.transform.position.x < transform.position.x)
+            {
+                transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
+                rigid.velocity = new Vector2(-1 * moveSpeed, rigid.velocity.y);
+            }
+            else
+            {
+                transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
+                rigid.velocity = new Vector2(moveSpeed, rigid.velocity.y);
+            }
         }
         else
         {
@@ -178,14 +173,14 @@ public class Bear : MonoBehaviour
     }
     public void SkillDmg()
     {
-        Vector2 v2 = new Vector2(transform.position.x + transform.parent.localScale.x * 12, transform.position.y + 4f);
-        Collider2D[] hits = Physics2D.OverlapAreaAll(v2, new Vector2(22,10));
+        Vector2 v2 = new Vector2(transform.position.x + transform.parent.localScale.x * 13, transform.position.y + 3f);
+        Collider2D[] hits = Physics2D.OverlapAreaAll(v2, new Vector2(24, 7));
 
         foreach (Collider2D hit in hits)
         {
             if (hit.gameObject.tag == "Player")
             {
-                hit.GetComponent<PlayerStatus>().Damaged(false,attackPower, dmg[1]);
+                hit.GetComponent<PlayerStatus>().Damaged(false, attackPower, dmg[1]);
             }
         }
     }
@@ -204,8 +199,8 @@ public class Bear : MonoBehaviour
 
     public void AttackDmg()
     {
-        Vector2 v2 = new Vector2(6 * transform.parent.localScale.x + transform.position.x, transform.position.y); 
-        Collider2D[] hits = Physics2D.OverlapBoxAll(v2, new Vector2(10, 3), 0);
+        Vector2 v2 = new Vector2(6 * transform.parent.localScale.x + transform.position.x, transform.position.y + 5);
+        Collider2D[] hits = Physics2D.OverlapBoxAll(v2, new Vector2(6, 12), 0);
 
         foreach (Collider2D hit in hits)
         {

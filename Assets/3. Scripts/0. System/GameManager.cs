@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public enum AbnormalStatus
+    {
+        µÐÈ­
+    };
+
     // for test 1,2 : ÀçÈ­ È¹µæ / 7,8 : Ã¼·Â º¯µ¿
 
     public static GameManager instance;
@@ -29,6 +34,9 @@ public class GameManager : MonoBehaviour
     public GameObject warrantOfAmeshaPanel;
 
     public float interactionRange;
+
+    // »óÅÂÀÌ»ó À¯Áö ½Ã°£
+    public float[] AbnormalTime; // 0 : Slow
     private void Awake()
     {
         if (instance == null)
@@ -54,6 +62,7 @@ public class GameManager : MonoBehaviour
         Test();
         FindInteraction();
         ESC();
+        CntlAbnormal();
 
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -154,5 +163,40 @@ public class GameManager : MonoBehaviour
     {
         pieceOfEnlightenment += num;
         GetItem();
+    }
+
+    public void GetAbnormal(AbnormalStatus abnormalStatus, float holdingTime)
+    {
+        switch (abnormalStatus)
+        {
+            case AbnormalStatus.µÐÈ­:
+                if (AbnormalTime[0] == 0)
+                {
+                    Player.GetComponent<PlayerMove>().speed -= 3;
+                    AbnormalTime[0] = holdingTime;
+                }
+                else
+                {
+                    AbnormalTime[0] = holdingTime;
+                }
+                break;
+        }
+        
+    }
+
+    public void CntlAbnormal()
+    {
+        for (int i = 0; i < AbnormalTime.Length; i++)
+        {
+            if (AbnormalTime[i] > 0)
+            {
+                AbnormalTime[i] -= Time.deltaTime;
+                if (AbnormalTime[0] <= 0)
+                {
+                    AbnormalTime[0] = 0;
+                    Player.GetComponent<PlayerMove>().speed += 3;
+                }
+            }
+        }
     }
 }

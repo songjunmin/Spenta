@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class EnemyStatus : MonoBehaviour
 {
     public float defense;
-    public float attackPower;
     public float hp;
     public float maxHp;
 
@@ -60,6 +59,7 @@ public class EnemyStatus : MonoBehaviour
     {
         transform.GetChild(0).SendMessage("Dead");
 
+        yield return null;
         yield return null;
         transform.GetChild(0).GetComponent<Animator>().enabled = false;
         transform.GetChild(0).GetComponent<MeshRenderer>().sortingOrder = -2;

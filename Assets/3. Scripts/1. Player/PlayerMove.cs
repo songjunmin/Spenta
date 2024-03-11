@@ -7,7 +7,10 @@ using System.Diagnostics;
 
 public class PlayerMove : MonoBehaviour
 {
+    // 이동 속도
     public float speed;
+
+
     public float moveDir;
     public float lookDir;
     public float jumpPower;
