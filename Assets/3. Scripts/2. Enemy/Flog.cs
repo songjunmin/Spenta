@@ -34,7 +34,7 @@ public class Flog : MonoBehaviour
     public GameObject poison;
 
     public float distance;
-
+    public float maxMoveLen;
     void Start()
     {
         rigid = GetComponentInParent<Rigidbody2D>();
@@ -46,7 +46,7 @@ public class Flog : MonoBehaviour
     public float startX, startY, lenX, lenY;
     private void OnDrawGizmos()
     {
-        // 공격 사거리 11
+        // 공격 사거리 14
         // 스킬 사거리 23
         Gizmos.color = Color.blue;
         Gizmos.DrawCube(new Vector3(startX * transform.parent.localScale.x, startY, 0) + transform.position, new Vector3(lenX, lenY, 0));
@@ -92,13 +92,13 @@ public class Flog : MonoBehaviour
                 skillCurTime = skillCoolTime;
             }
 
-            else if (distance > 7f && moveCurTime < 0)
+            else if (distance > 14 && moveCurTime < 0)
             {
                 Move();
                 moveCurTime = moveCoolTime;
             }
 
-            else if (distance < 7 && attackCurTime < 0)
+            else if (distance < 14 && attackCurTime < 0)
             {
                 if (GameManager.instance.Player.transform.position.x < transform.position.x + 10f &&
                     GameManager.instance.Player.transform.position.x > transform.position.x - 10f)
@@ -109,6 +109,7 @@ public class Flog : MonoBehaviour
             }
         }
     }
+
 
 
     public void Dead()
@@ -151,14 +152,29 @@ public class Flog : MonoBehaviour
         anim.SetTrigger("move");
     }
 
+    IEnumerator MoveReal()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        float goalX =Mathf.Min(distance, maxMoveLen) * moveDir + transform.position.x;
+
+        Debug.Log(distance);
+
+        rigid.velocity = new Vector2(moveSpeed * moveDir, rigid.velocity.y);
+
+        while (distance > 10f)
+        {
+            yield return null;
+            distance = Mathf.Abs(GameManager.instance.Player.transform.position.x - transform.position.x);
+
+        }
+
+        rigid.velocity = new Vector2(0, rigid.velocity.y);
+    }
+    
     public void MoveOn()
     {
-        rigid.velocity = new Vector2(moveSpeed * moveDir, rigid.velocity.y);
-    }
-
-    public void MoveOff()
-    {
-        rigid.velocity = new Vector2(0, rigid.velocity.y);
+        StartCoroutine(MoveReal());
     }
 
     public void Skill()

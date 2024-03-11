@@ -74,6 +74,8 @@ public class EnemyStatus : MonoBehaviour
         {
             case "Asmodeus":
             case "Bear":
+            case "Frog":
+            case "Zombie":
                 GameObject tmp = Instantiate(pieceOfEnlightenment, transform.position, Quaternion.identity);
                 tmp.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 4,ForceMode2D.Impulse);
                 break;
