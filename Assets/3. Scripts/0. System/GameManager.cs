@@ -69,37 +69,9 @@ public class GameManager : MonoBehaviour
         ESC();
         CntlAbnormal();
 
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            if (warrantOfSpentaPanel.activeSelf)
-            {
-                warrantOfSpentaPanel.SetActive(false);
-                Time.timeScale = 1f;
-            }
-            else
-            {
-                warrantOfSpentaPanel.SetActive(true);
-                gameObject.GetComponentInChildren<WarrantSystem>().SetMessageSpenta();
-                Time.timeScale = 0f;
-            }
-        }
+        
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (warrantOfAmeshaPanel.activeSelf)
-            {
-                warrantOfAmeshaPanel.SetActive(false);
-                Time.timeScale = 1f;
-            }
-            else
-            {
-                warrantOfAmeshaPanel.SetActive(true);
-                gameObject.GetComponentInChildren<WarrantSystem>().SetMessageAmesha();
-                Time.timeScale = 0f;
-            }
-        }
-
-        else if (Input.GetKeyDown(KeyCode.F4))
+        if (Input.GetKeyDown(KeyCode.F4))
         {
             Debug.Log(Player.transform.position);
         }
