@@ -23,6 +23,11 @@ public class PlayerSkill : MonoBehaviour
         switch (nonSkillName)
         {
             case PlayerAction.NonSkillName.Dash:
+                if (gameObject.GetComponent<PlayerStatus>().flashReset)
+                {
+                    StopCoroutine(gameObject.GetComponent<PlayerStatus>().FlashCoolTimeReset());
+                    StartCoroutine(gameObject.GetComponent<PlayerStatus>().FlashCoolTimeReset());
+                }
                 break;
 
             case PlayerAction.NonSkillName.Parrying:

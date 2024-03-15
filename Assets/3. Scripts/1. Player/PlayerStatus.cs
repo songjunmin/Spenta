@@ -81,6 +81,8 @@ public class PlayerStatus : MonoBehaviour
 
     // ºûÀÇ ±Ç´É - Á¡¸ê
     public float flashRange;
+    public bool flashReset;
+    public float flashResetTime;
 
     // Áø¸®ÀÇ ±Ç´É - ÆÐ¸µ
     public float parryingTime;
@@ -92,7 +94,6 @@ public class PlayerStatus : MonoBehaviour
     public float peaceTime;
     public bool isFighting;
     public float needForPeace;
-    public int shieldMax;
 
     // »ç¶ûÀÇ ±Ç´É
     public int damageAbsortion;
@@ -102,8 +103,7 @@ public class PlayerStatus : MonoBehaviour
     // ¾Æ»þ 
     public bool isAhsaEnforce = false;
 
-    // ?
-    public float totalAmount;
+
     void Start()
     {
         peaceTime = 0;
@@ -233,5 +233,24 @@ public class PlayerStatus : MonoBehaviour
     {
         hp += damageAbsortion * dmg / 100;
         ChangeHp();
+    }
+
+    public IEnumerator FlashCoolTimeReset()
+    {
+        flashResetTime = 1f;
+
+        while (flashResetTime > 0)
+        {
+            flashResetTime -= Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    public void EnemyDead()
+    {
+        if (flashResetTime > 0)
+        {
+            nonSkillCurTime[0] = 0;
+        }
     }
 }

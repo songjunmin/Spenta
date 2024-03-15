@@ -10,7 +10,6 @@ public class WarrantSystem : MonoBehaviour
     // 보후만 , 카사트라 , 아샤
     public GameObject[] spentaWarrantList = new GameObject[3];
 
-    // Test
     public GameObject[] ameshaWarrantList = new GameObject[5];
 
     string[,] spentaTextString = new string[3, 4]
@@ -457,7 +456,7 @@ public class WarrantSystem : MonoBehaviour
 
                     // 전설 특성
                     case 2:
-
+                        GameManager.instance.Player.GetComponent<PlayerStatus>().flashReset = true;
                         // 스킬 사용 후 1초 이내에 적 처치 시 쿨타임 초기화
                         break;
 
@@ -579,30 +578,7 @@ public class WarrantSystem : MonoBehaviour
     public void OpenAmeshaWarrant()
     {
         ameshaPanel.SetActive(true);
-        Time.timeScale = 0f;
-
-
-
-        // 이전 버전
-        /*
-        randInt = UnityEngine.Random.Range(0, 100);
-
-        if (randInt < 70)
-        {
-            rarityNum = 0;
-            OpenAmeshaWarrant(Rarity.Normal);
-        }
-        else if (randInt < 95)
-        {
-            rarityNum = 1;
-            OpenAmeshaWarrant(Rarity.Rare);
-        }
-        else
-        {
-            rarityNum = 2;
-            OpenAmeshaWarrant(Rarity.Legendary);
-        }
-        */
+        Time.timeScale = 0f; 
     }
     // 이전 버전
     public void OpenAmeshaWarrant(Rarity rarity)

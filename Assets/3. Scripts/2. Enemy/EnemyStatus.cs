@@ -57,6 +57,8 @@ public class EnemyStatus : MonoBehaviour
 
     IEnumerator Dead()
     {
+        GameManager.instance.Player.GetComponent<PlayerStatus>().EnemyDead();
+
         transform.GetChild(0).SendMessage("Dead");
 
         yield return null;

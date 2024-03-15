@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -36,7 +37,11 @@ public class GameManager : MonoBehaviour
     public float interactionRange;
 
     // 상태이상 유지 시간
-    public float[] AbnormalTime; // 0 : Slow
+    public float[] abnormalTime; // 0 : Slow
+
+
+
+
     private void Awake()
     {
         if (instance == null)
@@ -92,6 +97,24 @@ public class GameManager : MonoBehaviour
                 gameObject.GetComponentInChildren<WarrantSystem>().SetMessageAmesha();
                 Time.timeScale = 0f;
             }
+        }
+
+        else if (Input.GetKeyDown(KeyCode.F4))
+        {
+            Debug.Log(Player.transform.position);
+        }
+         else if (Input.GetKeyDown(KeyCode.F9))
+        {
+            GetComponent<SceneLoad>().LoadScene();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.F11))
+        {
+            GetComponent<SaveLoadMng>().JsonSave();
+        }
+        else if (Input.GetKeyDown(KeyCode.F12))
+        {
+            GetComponent<SaveLoadMng>().JsonLoad();
         }
     }
 
@@ -170,14 +193,14 @@ public class GameManager : MonoBehaviour
         switch (abnormalStatus)
         {
             case AbnormalStatus.둔화:
-                if (AbnormalTime[0] == 0)
+                if (abnormalTime[0] == 0)
                 {
                     Player.GetComponent<PlayerMove>().speed -= 3;
-                    AbnormalTime[0] = holdingTime;
+                    abnormalTime[0] = holdingTime;
                 }
                 else
                 {
-                    AbnormalTime[0] = holdingTime;
+                    abnormalTime[0] = holdingTime;
                 }
                 break;
         }
@@ -186,14 +209,14 @@ public class GameManager : MonoBehaviour
 
     public void CntlAbnormal()
     {
-        for (int i = 0; i < AbnormalTime.Length; i++)
+        for (int i = 0; i < abnormalTime.Length; i++)
         {
-            if (AbnormalTime[i] > 0)
+            if (abnormalTime[i] > 0)
             {
-                AbnormalTime[i] -= Time.deltaTime;
-                if (AbnormalTime[0] <= 0)
+                abnormalTime[i] -= Time.deltaTime;
+                if (abnormalTime[0] <= 0)
                 {
-                    AbnormalTime[0] = 0;
+                    abnormalTime[0] = 0;
                     Player.GetComponent<PlayerMove>().speed += 3;
                 }
             }

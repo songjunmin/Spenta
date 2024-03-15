@@ -9,6 +9,11 @@ public class CameraMove : MonoBehaviour
 
     public float speed;
 
+    private void Start()
+    {
+        player = GameManager.instance.Player;
+    }
+
     void LateUpdate()
     {
         Vector2 vector2 = Vector2.Lerp(transform.position, player.transform.position, speed);
