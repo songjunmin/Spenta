@@ -62,7 +62,7 @@ public class PlayerMove : MonoBehaviour
 
     void Move()
     {
-        if (!animState.IsName("Stand") && !animState.IsName("Run"))
+        if (!animState.IsName("Stand") && !animState.IsName("Run") && !animState.IsName("Jump"))
         {
             return;
         }
@@ -118,7 +118,7 @@ public class PlayerMove : MonoBehaviour
                 return;
             }
 
-            if (isJump == 0)
+            if (isJump < 2)
             {
                 isJump++;
                 // 점프 전 y축 속도 초기화
