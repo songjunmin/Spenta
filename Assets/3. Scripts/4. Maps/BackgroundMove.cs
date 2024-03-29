@@ -14,6 +14,8 @@ public class BackgroundMove : MonoBehaviour
 
     void Start()
     {
+        cmr = GameManager.instance.transform.GetChild(2).gameObject;
+
         startVec = transform.position;
         startCmr = cmr.transform.position;
     }

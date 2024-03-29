@@ -12,7 +12,9 @@ public class CloudMove : MonoBehaviour
     public Vector3 diffLoc;
     void Start()
     {
+        cmr = GameManager.instance.transform.GetChild(2).gameObject;
         cmrLoc = cmr.transform.position;
+
     }
 
 

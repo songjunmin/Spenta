@@ -8,7 +8,7 @@ public class Background : MonoBehaviour
     
     void Start()
     {
-        
+        cmr = GameManager.instance.transform.GetChild(2).gameObject;
     }
 
     // Update is called once per frame
