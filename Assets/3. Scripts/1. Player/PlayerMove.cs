@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
 using Spine;
-using System.Diagnostics;
 
 public class PlayerMove : MonoBehaviour
 {
     // 이동 속도
     public float speed;
-
 
     public float moveDir;
     public float lookDir;
@@ -29,7 +27,18 @@ public class PlayerMove : MonoBehaviour
 
     Vector2 dashSpeed;
 
-    // Start is called before the first frame update
+    Collider2D[] isGround1;
+    Collider2D[] isGround2;
+
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(transform.position + new Vector3(0.5f,0,0), 0.3f);
+        Gizmos.DrawSphere(transform.position + new Vector3(-0.5f, 0, 0), 0.3f);
+    }
+
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
@@ -52,12 +61,18 @@ public class PlayerMove : MonoBehaviour
 
         // 점프
         Jump();
-
+        
         // Test
         UnityEngine.Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 0.01f), Vector2.down, Color.red);
 
         // 대쉬
         Dash();
+        
+    }
+
+    private void FixedUpdate()
+    {
+        IsGround();
     }
 
     void Move()
@@ -81,14 +96,6 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer.Equals(6))
-        {
-            isJump = 0;
-        }
-    }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("UpTile"))
@@ -99,12 +106,30 @@ public class PlayerMove : MonoBehaviour
 
     void DownJump()
     {
-        hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y  - 0.05f), Vector2.down, 0.01f);
-
-        if (hit && hit.collider.gameObject.CompareTag("UpTile"))
+        foreach (Collider2D collider in isGround1)
         {
-            hit.transform.GetComponent<BoxCollider2D>().isTrigger = true;
+            if (collider.gameObject.layer == 6)
+            {
+                if (collider.gameObject.CompareTag("UpTile"))
+                {
+                    collider.GetComponent<PlatformEffector2D>().surfaceArc = 0f;
+                }
+                return;
+            }
         }
+
+        foreach (Collider2D collider in isGround2)
+        {
+            if (collider.gameObject.layer == 6)
+            {
+                if (collider.gameObject.CompareTag("UpTile"))
+                {
+                    collider.GetComponent<PlatformEffector2D>().surfaceArc = 0f;
+                }
+                return;
+            }
+        }
+        
     }
 
     void Jump()
@@ -129,6 +154,36 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
+    public void IsGround()
+    {
+    
+        if (rigid.velocity.y > 0.01f)
+        {
+            return;
+        }
+
+        isGround1 = Physics2D.OverlapCircleAll(transform.position + new Vector3(0.5f, 0, 0), 0.3f);
+        isGround2 = Physics2D.OverlapCircleAll(transform.position + new Vector3(-0.5f, 0, 0), 0.3f);
+        foreach (Collider2D collider in isGround1)
+        {
+            if (collider.gameObject.layer == 6)
+            {
+                isJump = 0;
+                return;
+            }
+        }
+
+        foreach (Collider2D collider in isGround2)
+        {
+            if (collider.gameObject.layer == 6)
+            {
+                isJump = 0;
+                return;
+            }
+        }
+
+    }
+
     public void ChangeVelocity(Vector2 vector2)
     {
         dashSpeed = vector2;
