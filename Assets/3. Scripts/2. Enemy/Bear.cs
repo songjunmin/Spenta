@@ -63,8 +63,8 @@ public class Bear : MonoBehaviour
         {
             if (skillCurTime < 0)
             {
-                if (GameManager.instance.Player.transform.position.x < transform.position.x + 23f &&
-                    GameManager.instance.Player.transform.position.x > transform.position.x - 23f)
+                if (GameManager.instance.Player.transform.position.x < transform.position.x + 11f &&
+                    GameManager.instance.Player.transform.position.x > transform.position.x - 11f)
                 {
                     Skill();
                     skillCurTime = skillCoolTime;
@@ -74,8 +74,8 @@ public class Bear : MonoBehaviour
 
             else if (attackCurTime < 0)
             {
-                if (GameManager.instance.Player.transform.position.x < transform.position.x + 11f &&
-                    GameManager.instance.Player.transform.position.x > transform.position.x - 11f)
+                if (GameManager.instance.Player.transform.position.x < transform.position.x + 5f &&
+                    GameManager.instance.Player.transform.position.x > transform.position.x - 5f)
                 {
                     Attack();
                     attackCurTime = attackCoolTime;
@@ -99,7 +99,7 @@ public class Bear : MonoBehaviour
             return;
         }
 
-        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x - 20f, transform.position.y - 12f), new Vector2(transform.position.x + 20f, transform.position.y));
+        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x - 10f, transform.position.y - 6f), new Vector2(transform.position.x + 10f, transform.position.y));
 
         foreach (Collider2D hit in hits)
         {
@@ -124,12 +124,12 @@ public class Bear : MonoBehaviour
         {
             rigid.velocity = new Vector2(moveDir * moveSpeed, rigid.velocity.y);
         }
-        else if (GameManager.instance.Player.transform.position.x < transform.position.x - 10f)
+        else if (GameManager.instance.Player.transform.position.x < transform.position.x - 5f)
         {
             transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
             rigid.velocity = new Vector2(-1 * moveSpeed, rigid.velocity.y);
         }
-        else if (GameManager.instance.Player.transform.position.x > transform.position.x + 10f)
+        else if (GameManager.instance.Player.transform.position.x > transform.position.x + 5f)
         {
 
             transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
@@ -178,8 +178,8 @@ public class Bear : MonoBehaviour
     }
     public void SkillDmg()
     {
-        Vector2 v2 = new Vector2(transform.position.x + transform.parent.localScale.x * 12, transform.position.y + 4f);
-        Collider2D[] hits = Physics2D.OverlapAreaAll(v2, new Vector2(22,10));
+        Vector2 v2 = new Vector2(transform.position.x + transform.parent.localScale.x * 6, transform.position.y + 2f);
+        Collider2D[] hits = Physics2D.OverlapAreaAll(v2, new Vector2(11,5));
 
         foreach (Collider2D hit in hits)
         {
@@ -205,7 +205,7 @@ public class Bear : MonoBehaviour
     public void AttackDmg()
     {
         Vector2 v2 = new Vector2(6 * transform.parent.localScale.x + transform.position.x, transform.position.y); 
-        Collider2D[] hits = Physics2D.OverlapBoxAll(v2, new Vector2(10, 3), 0);
+        Collider2D[] hits = Physics2D.OverlapBoxAll(v2, new Vector2(5, 1.5f), 0);
 
         foreach (Collider2D hit in hits)
         {

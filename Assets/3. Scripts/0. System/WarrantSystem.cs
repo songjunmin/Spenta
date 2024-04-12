@@ -104,6 +104,7 @@ public class WarrantSystem : MonoBehaviour
     public AmeshaWarrant[] nowAmeshaWarrant = new AmeshaWarrant[5];
 
     public GameObject ameshaPanel;
+    public GameObject spentaPanel;
 
     public int rarityNum;
 
@@ -575,98 +576,18 @@ public class WarrantSystem : MonoBehaviour
         }
     }
 
+
+    public void OpenSpentaWarrant()
+    {
+        spentaPanel.SetActive(true);
+        SetMessageSpenta();
+        Time.timeScale = 0f;
+    }
+
     public void OpenAmeshaWarrant()
     {
         ameshaPanel.SetActive(true);
+        SetMessageAmesha();
         Time.timeScale = 0f; 
     }
-    // 이전 버전
-    public void OpenAmeshaWarrant(Rarity rarity)
-    {
-        int j = -1;
-
-        switch (rarity)
-        {
-            case Rarity.Normal:
-                j = 0;
-                break;
-
-            case Rarity.Rare:
-                j = 1;
-                break;
-
-            case Rarity.Legendary:
-                j = 2;
-                break;
-
-            default:
-                break;
-        }
-
-        // 오류 체크
-        if (j == -1)
-        {
-            Debug.Log("에러 발생");
-        }
-
-        ameshaPanel.transform.GetChild(0).GetComponent<Text>().text = "< " + rarity.ToString() + " >";
-
-        for (int i = 0; i < 5; i++)
-        {
-
-            ameshaPanel.transform.GetChild(i + 1).GetChild(0).GetComponent<Text>().text = ameshaTextString[i, 0];
-            ameshaPanel.transform.GetChild(i + 1).GetChild(1).GetChild(0).GetComponent<Text>().text = ameshaBtnString[i, j];
-            ameshaPanel.transform.GetChild(i + 1).GetChild(1).GetChild(1).GetComponent<Text>().text
-                = ameshaTextString[i, j] + "Lv " + nowAmeshaWarrant[i].GetPointByInt(j).ToString() + 
-                   "/" + maxAmeshaWarrant[i].GetPointByInt(j).ToString();
-
-        }
-        
-
-        ameshaPanel.SetActive(true);
-        Time.timeScale = 0;
-    }
-
-
-    public void GetAmeshaWarrantTest()
-    {
-        GameObject nowClicked = EventSystem.current.currentSelectedGameObject;
-        string typeName = nowClicked.transform.parent.name;
-
-        int i = 0;
-        switch (typeName)
-        {
-            case "Flash":
-                i = 0;
-                break;
-
-            case "Parrying":
-                i = 1;
-                break;
-
-            case "Life":
-                i = 2;
-                break;
-
-            case "Love":
-                i = 3;
-                break;
-
-            case "Justice":
-                i = 4;
-                break;
-        }
-
-        
-        if (nowAmeshaWarrant[i].GetPointByInt(rarityNum) < maxAmeshaWarrant[i].GetPointByInt(rarityNum))
-        {
-            nowAmeshaWarrant[i].SetPointByint(rarityNum,1);
-            ApplyAmeshaWarrant(i, rarityNum);
-        }
-                
-        SetMessageAmesha();
-        ameshaPanel.SetActive(false);
-        Time.timeScale = 1;
-    }
-
 }

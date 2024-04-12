@@ -59,7 +59,7 @@ public class SaveLoadMng : MonoBehaviour
 {
     string path;
 
-    WarrantSystem ws;
+    public WarrantSystem ws;
     PlayerStatus ps;
     PlayerMove pm;
     SceneLoad sl;
@@ -76,6 +76,7 @@ public class SaveLoadMng : MonoBehaviour
 
     public void JsonLoad()
     {
+
         path = Path.Combine(Application.dataPath, "database.json");
         SaveData saveData = new SaveData();
 
@@ -88,8 +89,10 @@ public class SaveLoadMng : MonoBehaviour
             string loadJson = File.ReadAllText(path);
             saveData = JsonUtility.FromJson<SaveData>(loadJson);
 
+            
             if (saveData != null)
             {
+
                 // WarrantSystem
                 ws.maxSpentaWarrant = saveData.maxSpentaWarrant;
                 ws.nowSpentaWarrant = saveData.nowSpentaWarrant;
@@ -141,6 +144,7 @@ public class SaveLoadMng : MonoBehaviour
 
     public void JsonSave()
     {
+
         // saveData에 정보들을 저장
         SaveData saveData = new SaveData();
 
@@ -181,6 +185,8 @@ public class SaveLoadMng : MonoBehaviour
         saveData.speed = pm.speed;
 
         // GameManager
+ 
+
         saveData.pieceOfEnlightenment = GameManager.instance.pieceOfEnlightenment;
         saveData.sparkOfKnowledge = GameManager.instance.sparkOfKnowledge;
         saveData.abnormalTime = GameManager.instance.abnormalTime;

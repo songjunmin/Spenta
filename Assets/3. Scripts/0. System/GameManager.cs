@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class GameManager : MonoBehaviour
 {
     public enum AbnormalStatus
@@ -69,16 +70,11 @@ public class GameManager : MonoBehaviour
         ESC();
         CntlAbnormal();
 
-        
-
         if (Input.GetKeyDown(KeyCode.F4))
         {
             Debug.Log(Player.transform.position);
         }
-         else if (Input.GetKeyDown(KeyCode.F9))
-        {
-            GetComponent<SceneLoad>().LoadScene();
-        }
+        
 
         else if (Input.GetKeyDown(KeyCode.F11))
         {
@@ -87,6 +83,13 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.F12))
         {
             GetComponent<SaveLoadMng>().JsonLoad();
+        } 
+        else if (Input.GetKeyDown(KeyCode.F10))
+        {
+            Vector3 nowLoc = GameManager.instance.Player.transform.position;
+
+            Debug.Log(nowLoc.x);
+            Debug.Log(nowLoc.y);
         }
     }
 
@@ -103,7 +106,7 @@ public class GameManager : MonoBehaviour
 
     public void Test()
     {
-        if (Input.GetKeyDown(KeyCode.Keypad1))
+        if (Input.GetKeyDown(KeyCode.Keypad1))  
         {
             pieceOfEnlightenment++;
             GetItem();
@@ -127,6 +130,7 @@ public class GameManager : MonoBehaviour
                 Interaction inter = hit.GetComponent<Interaction>();
                 if (inter != null)
                 {
+                    Debug.Log(inter.name);
                     hit.SendMessage("SendInteraction");
                     return;
                 }
@@ -136,6 +140,11 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void NextStage()
+    {
+        GetComponent<SceneLoad>().LoadScene();
+    }
+
     public void ESC()
     {
         if (Input.GetKey(KeyCode.Escape))
@@ -143,6 +152,11 @@ public class GameManager : MonoBehaviour
             if (warrantOfAmeshaPanel.activeSelf)
             {
                 warrantOfAmeshaPanel.SetActive(false);
+                Time.timeScale = 1f;
+            }
+            if (warrantOfSpentaPanel.activeSelf)
+            {
+                warrantOfSpentaPanel.SetActive(false);
                 Time.timeScale = 1f;
             }
         }

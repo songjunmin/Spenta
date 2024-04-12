@@ -46,8 +46,8 @@ public class Flog : MonoBehaviour
     public float startX, startY, lenX, lenY;
     private void OnDrawGizmos()
     {
-        // 공격 사거리 14
-        // 스킬 사거리 23
+        // 공격 사거리 7
+        // 스킬 사거리 11.5
         Gizmos.color = Color.blue;
         Gizmos.DrawCube(new Vector3(startX * transform.parent.localScale.x, startY, 0) + transform.position, new Vector3(lenX, lenY, 0));
     }
@@ -86,22 +86,22 @@ public class Flog : MonoBehaviour
         if (isPlayer && animState.IsName("idle"))
         {
             
-            if (distance < 18 && skillCurTime < 0)
+            if (distance < 9 && skillCurTime < 0)
             {
                 Skill();
                 skillCurTime = skillCoolTime;
             }
 
-            else if (distance > 14 && moveCurTime < 0)
+            else if (distance > 7 && moveCurTime < 0)
             {
                 Move();
                 moveCurTime = moveCoolTime;
             }
 
-            else if (distance < 14 && attackCurTime < 0)
+            else if (distance < 7 && attackCurTime < 0)
             {
-                if (GameManager.instance.Player.transform.position.x < transform.position.x + 10f &&
-                    GameManager.instance.Player.transform.position.x > transform.position.x - 10f)
+                if (GameManager.instance.Player.transform.position.x < transform.position.x + 5f &&
+                    GameManager.instance.Player.transform.position.x > transform.position.x - 5f)
                 {
                     Attack();
                     attackCurTime = attackCoolTime;
@@ -126,7 +126,7 @@ public class Flog : MonoBehaviour
             return;
         }
 
-        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x - 20f, transform.position.y - 12f), new Vector2(transform.position.x + 20f, transform.position.y));
+        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x - 10f, transform.position.y - 6f), new Vector2(transform.position.x + 10f, transform.position.y));
 
         foreach (Collider2D hit in hits)
         {
@@ -162,7 +162,7 @@ public class Flog : MonoBehaviour
 
         rigid.velocity = new Vector2(moveSpeed * moveDir, rigid.velocity.y);
 
-        while (distance > 10f)
+        while (distance > 5f)
         {
             yield return null;
             distance = Mathf.Abs(GameManager.instance.Player.transform.position.x - transform.position.x);
@@ -191,7 +191,7 @@ public class Flog : MonoBehaviour
     }
     public void SkillDmg()
     {
-        float dmgs = dmg[1] * (23 - distance) / 4;
+        float dmgs = dmg[1] * (11.5f - distance) / 2;
         GameManager.instance.Player.GetComponent<PlayerStatus>().Damaged(false,attackPower, dmgs);
     }
     public void Attack()
@@ -222,7 +222,7 @@ public class Flog : MonoBehaviour
 
     public void SetPoisonLoc()
     {
-        Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0, 4, 0);
+        Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0, 2, 0);
         poison.transform.position = loc;
 
         
@@ -245,7 +245,7 @@ public class Flog : MonoBehaviour
 
         GetComponent<MeshRenderer>().sortingOrder = 3;
 
-        if (Mathf.Abs(poison.transform.position.x - GameManager.instance.Player.transform.position.x) < 3)
+        if (Mathf.Abs(poison.transform.position.x - GameManager.instance.Player.transform.position.x) < 1.5f)
         {
             Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0, 4, 0);
             poison.transform.position = loc;

@@ -29,4 +29,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/0. Scenes/stage7.unity
     guid: 058ef4461f8e6604fbd24d1fc3b18ea0
+  - enabled: 1
+    path: Assets/0. Scenes/start.unity
+    guid: 2017e4c5adf74dc4f906fe399082bb4b
+  - enabled: 1
+    path: Assets/0. Scenes/Awakening.unity
+    guid: 056d0dec59164a541a60ec57e87033d9
   m_configObjects: {}

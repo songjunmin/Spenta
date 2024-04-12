@@ -63,13 +63,13 @@ public class Zombie : MonoBehaviour
 
         if (isPlayer && animState.IsName("idle"))
         {
-            if (skillCurTime < 0 && distance < 23)
+            if (skillCurTime < 0 && distance < 11.5f)
             {
                 Skill();
                 skillCurTime = skillCoolTime;
             }
 
-            else if (attackCurTime < 0 && distance < 9f)
+            else if (attackCurTime < 0 && distance < 4.5f)
             {
                 Attack();
                 attackCurTime = attackCoolTime;
@@ -92,7 +92,7 @@ public class Zombie : MonoBehaviour
             return;
         }
 
-        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x - 20f, transform.position.y - 12f), new Vector2(transform.position.x + 20f, transform.position.y));
+        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x - 10f, transform.position.y - 6f), new Vector2(transform.position.x + 10f, transform.position.y));
 
         foreach (Collider2D hit in hits)
         {
@@ -117,7 +117,7 @@ public class Zombie : MonoBehaviour
             rigid.velocity = new Vector2(moveDir * moveSpeed, rigid.velocity.y);
         }
 
-        else if (distance > 9f)
+        else if (distance > 4.5f)
         {
             if (GameManager.instance.Player.transform.position.x < transform.position.x)
             {
@@ -173,8 +173,8 @@ public class Zombie : MonoBehaviour
     }
     public void SkillDmg()
     {
-        Vector2 v2 = new Vector2(transform.position.x + transform.parent.localScale.x * 13, transform.position.y + 3f);
-        Collider2D[] hits = Physics2D.OverlapAreaAll(v2, new Vector2(24, 7));
+        Vector2 v2 = new Vector2(transform.position.x + transform.parent.localScale.x * 6.5f, transform.position.y + 1.5f);
+        Collider2D[] hits = Physics2D.OverlapAreaAll(v2, new Vector2(12, 3.5f));
 
         foreach (Collider2D hit in hits)
         {
@@ -199,8 +199,8 @@ public class Zombie : MonoBehaviour
 
     public void AttackDmg()
     {
-        Vector2 v2 = new Vector2(6 * transform.parent.localScale.x + transform.position.x, transform.position.y + 5);
-        Collider2D[] hits = Physics2D.OverlapBoxAll(v2, new Vector2(6, 12), 0);
+        Vector2 v2 = new Vector2(6 * transform.parent.localScale.x + transform.position.x, transform.position.y + 2.5f);
+        Collider2D[] hits = Physics2D.OverlapBoxAll(v2, new Vector2(3, 6), 0);
 
         foreach (Collider2D hit in hits)
         {

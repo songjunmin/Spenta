@@ -69,8 +69,8 @@ public class Asmodeus : MonoBehaviour
 
             else if (attackCurTime < 0)
             {
-                if (GameManager.instance.Player.transform.position.x < transform.position.x + 10f &&
-                    GameManager.instance.Player.transform.position.x > transform.position.x - 10f)
+                if (GameManager.instance.Player.transform.position.x < transform.position.x + 5f &&
+                    GameManager.instance.Player.transform.position.x > transform.position.x - 5f)
                 {
                     Attack();
                     attackCurTime = attackCoolTime;
@@ -97,7 +97,7 @@ public class Asmodeus : MonoBehaviour
             return;
         }
 
-        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x -20f, transform.position.y - 12f), new Vector2(transform.position.x + 20f, transform.position.y));
+        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x -10f, transform.position.y - 6f), new Vector2(transform.position.x + 10f, transform.position.y));
 
         foreach (Collider2D hit in hits)
         {
@@ -123,15 +123,15 @@ public class Asmodeus : MonoBehaviour
             rigid.velocity = new Vector2(moveDir * moveSpeed, rigid.velocity.y);
         }
         // 만약 플레이어를 찾았고, 플레이어와의 거리가 멀다면
-        else if (GameManager.instance.Player.transform.position.x < transform.position.x - 10f)
+        else if (GameManager.instance.Player.transform.position.x < transform.position.x - 5f)
         {
-            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
-            rigid.velocity = new Vector2(-1 * moveSpeed, rigid.velocity.y);
+            // transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x) * -1, transform.parent.localScale.y);
+            // rigid.velocity = new Vector2(-1 * moveSpeed, rigid.velocity.y);
         }
-        else if (GameManager.instance.Player.transform.position.x > transform.position.x + 10f)
+        else if (GameManager.instance.Player.transform.position.x > transform.position.x + 5f)
         {
-            transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
-            rigid.velocity = new Vector2(moveSpeed, rigid.velocity.y);
+            // transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
+            // rigid.velocity = new Vector2(moveSpeed, rigid.velocity.y);
         }
         else
         {
@@ -173,7 +173,7 @@ public class Asmodeus : MonoBehaviour
             transform.parent.localScale = new Vector2(Mathf.Abs(transform.parent.localScale.x), transform.parent.localScale.y);
         }
 
-        look = transform.parent.localScale.x / 4;
+        look = transform.parent.localScale.x / 2;
         anim.SetTrigger("skill");
     }
     public void SkillDmg()
@@ -217,7 +217,7 @@ public class Asmodeus : MonoBehaviour
 
     public void SetHeartLoc()
     {
-        Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0,4,0);
+        Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0,2,0);
         hearts[0].transform.position = loc;
         hearts[1].transform.position = loc;  
 
@@ -265,14 +265,14 @@ public class Asmodeus : MonoBehaviour
         Vector3 targetLoc;
         if (transform.parent.localScale.x > 0)
         {
-            targetLoc = hearts[0].transform.position + new Vector3(1.4f, -1.2f, 0f);
+            targetLoc = hearts[0].transform.position + new Vector3(0.7f, -0.6f, 0f);
         }
         else
         {
-            targetLoc = hearts[0].transform.position + new Vector3(1.4f, 1.2f, 0f);
+            targetLoc = hearts[0].transform.position + new Vector3(0.7f, 0.6f, 0f);
         }
 
-        Collider2D[] hits = Physics2D.OverlapBoxAll(targetLoc, new Vector2(8.5f, 7), 0);
+        Collider2D[] hits = Physics2D.OverlapBoxAll(targetLoc, new Vector2(2.5f, 1.7f), 0);
 
         foreach (Collider2D hit in hits)
         {
@@ -285,7 +285,7 @@ public class Asmodeus : MonoBehaviour
             }
         }
 
-        Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0, 4, 0);
+        Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0, 2, 0);
 
     }
 }

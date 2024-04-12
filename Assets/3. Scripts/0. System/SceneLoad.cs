@@ -15,6 +15,8 @@ public class SceneLoad : MonoBehaviour
     public List<int> randomList;
     public List<int> stageList;
 
+    public Image loadingImg;
+
     void Start()
     {
         
@@ -50,16 +52,50 @@ public class SceneLoad : MonoBehaviour
 
     public void LoadScene()
     {
+        LoadingStart();
+
+        if (stage == 0)
+        {
+            stage++;
+            GameManager.instance.transform.GetChild(0).gameObject.SetActive(true);
+            GameManager.instance.transform.GetChild(1).gameObject.SetActive(true);
+            
+            SetStage();
+            SceneManager.LoadScene(8);
+            return;
+        }
+
+        if (stage == 4)
+        {
+            stage++;
+            GameManager.instance.transform.GetChild(0).gameObject.SetActive(true);
+            GameManager.instance.transform.GetChild(1).gameObject.SetActive(true);
+
+            SetStage();
+            SceneManager.LoadScene(9);
+            return;
+        }
+
         int nextStage = stageList[0];
         Debug.Log(nextStage);
         stage++;
         stageList.RemoveAt(0);
 
-        GameManager.instance.transform.GetChild(0).gameObject.SetActive(true);
-        GameManager.instance.transform.GetChild(1).gameObject.SetActive(true);
         GameManager.instance.transform.GetChild(1).transform.position = new Vector3(stageStartLoc[2 * nextStage - 2], stageStartLoc[2 * nextStage - 1], 0);
 
         SetStage();
         SceneManager.LoadScene(nextStage);
+    }
+
+    public void LoadingStart()
+    {
+        loadingImg.gameObject.SetActive(true);
+
+        Invoke("LoadingEnd", 1f);
+    }
+
+    public void LoadingEnd()
+    {
+        loadingImg.gameObject.SetActive(false);
     }
 }

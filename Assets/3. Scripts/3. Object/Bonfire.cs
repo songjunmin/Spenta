@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class Bonfire : MonoBehaviour
 {
+    public string objectName;
+    private void Start()
+    {
+        objectName = gameObject.name;
+    }
+
     public void SendInteraction()
     {
-        Debug.Log("받음");
-        string name = gameObject.name;
-        
-        if (name == "normalBonfire")
+        switch (objectName)
         {
-            Debug.Log("받고 실행함");
-            GameManager.instance.GetComponent<WarrantSystem>().OpenAmeshaWarrant();
-            
+            case "NormalBonfire":
+                GameManager.instance.GetComponent<WarrantSystem>().OpenAmeshaWarrant();
+                break;
+
+            case "SpecialBonfire":
+                GameManager.instance.GetComponent<WarrantSystem>().OpenSpentaWarrant();
+                break;
+
         }
     }
 }
