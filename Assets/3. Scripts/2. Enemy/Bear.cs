@@ -40,8 +40,18 @@ public class Bear : MonoBehaviour
     {
         // 공격 사거리 11
         // 스킬 사거리 23
+
+        // 플레이어 탐색 범위
         Gizmos.color = Color.blue;
-        Gizmos.DrawCube(new Vector3(startX * transform.parent.localScale.x, startY, 0) + transform.position, new Vector3(lenX, lenY, 0));
+        Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y + 2f), new Vector2(15, 6));
+
+        // 스킨 범위
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(new Vector2(transform.position.x + transform.parent.localScale.x * 3, transform.position.y + 1f), new Vector2(6, 2));
+
+        //공격 범위
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(new Vector2(2 * transform.parent.localScale.x + transform.position.x, transform.position.y), new Vector2(5, 1.5f));
     }
 
     void Update()
@@ -178,14 +188,14 @@ public class Bear : MonoBehaviour
     }
     public void SkillDmg()
     {
-        Vector2 v2 = new Vector2(transform.position.x + transform.parent.localScale.x * 6, transform.position.y + 2f);
-        Collider2D[] hits = Physics2D.OverlapAreaAll(v2, new Vector2(11,5));
+        Vector2 v2 = new Vector2(transform.position.x + transform.parent.localScale.x * 3, transform.position.y + 1f);
+        Collider2D[] hits = Physics2D.OverlapAreaAll(v2, new Vector2(6,2));
 
         foreach (Collider2D hit in hits)
         {
             if (hit.gameObject.tag == "Player")
             {
-                hit.GetComponent<PlayerStatus>().Damaged(false,attackPower, dmg[1]);
+                hit.GetComponent<PlayerStatus>().Damaged(false,attackPower, dmg[1] , transform.position.x);
             }
         }
     }
@@ -204,14 +214,14 @@ public class Bear : MonoBehaviour
 
     public void AttackDmg()
     {
-        Vector2 v2 = new Vector2(6 * transform.parent.localScale.x + transform.position.x, transform.position.y); 
+        Vector2 v2 = new Vector2(2 * transform.parent.localScale.x + transform.position.x, transform.position.y); 
         Collider2D[] hits = Physics2D.OverlapBoxAll(v2, new Vector2(5, 1.5f), 0);
 
         foreach (Collider2D hit in hits)
         {
             if (hit.tag == "Player")
             {
-                hit.GetComponent<PlayerStatus>().Damaged(false, attackPower, dmg[0]);
+                hit.GetComponent<PlayerStatus>().Damaged(false, attackPower, dmg[0], transform.position.x);
             }
         }
     }

@@ -192,7 +192,7 @@ public class Flog : MonoBehaviour
     public void SkillDmg()
     {
         float dmgs = dmg[1] * (11.5f - distance) / 2;
-        GameManager.instance.Player.GetComponent<PlayerStatus>().Damaged(false,attackPower, dmgs);
+        GameManager.instance.Player.GetComponent<PlayerStatus>().Damaged(false,attackPower, dmgs, transform.position.x);
     }
     public void Attack()
     {
@@ -250,7 +250,7 @@ public class Flog : MonoBehaviour
             Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0, 4, 0);
             poison.transform.position = loc;
 
-            GameManager.instance.Player.GetComponent<PlayerStatus>().Damaged(false, attackPower, dmg[0]);
+            GameManager.instance.Player.GetComponent<PlayerStatus>().Damaged(false, attackPower, dmg[0], transform.position.x);
 
         }
         else

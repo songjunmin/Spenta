@@ -104,10 +104,14 @@ public class PlayerStatus : MonoBehaviour
     public bool isAhsaEnforce = false;
 
 
+    PlayerMove pm;
+
     void Start()
     {
         peaceTime = 0;
         isFighting = false;
+
+        pm = GetComponent<PlayerMove>();
     }
 
     void Update()
@@ -190,19 +194,19 @@ public class PlayerStatus : MonoBehaviour
         shieldBar.fillAmount = shield / maxShield;
     }
 
-    public void Damaged(bool trueDamaged, float atkPower, float coefficient)
+    public void Damaged(bool trueDamaged, float atkPower, float coefficient , float attVecX)
     {
         float totalDamage = atkPower * coefficient;
 
         float force;
 
-
         // 일반 데미지
         if (!trueDamaged)
         {
             totalDamage /= (100 + defense);
-            force = 20f;
+            force = 15f;
         }
+
         // 함정 등의 고정 데미지
         else
         {
@@ -222,17 +226,23 @@ public class PlayerStatus : MonoBehaviour
             }
         }
 
-
         else
         {
             hp -= totalDamage;
         }
         peaceTime = needForPeace;
 
-        GetComponent<Rigidbody2D>().AddForce(new Vector2(transform.localScale.x * -1, 0.5f) * force,ForceMode2D.Impulse);
-
+        pm.HitOn();
+        if (transform.position.x > attVecX)
+        {
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(1, 0.5f) * force, ForceMode2D.Impulse);
+        }
+        else
+        {
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(-1, 0.5f) * force, ForceMode2D.Impulse);
+        }
+        
         ChangeHp();
-
     }
 
     public void HpAbsorption(float dmg)

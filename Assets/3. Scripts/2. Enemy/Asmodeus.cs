@@ -178,7 +178,7 @@ public class Asmodeus : MonoBehaviour
     }
     public void SkillDmg()
     {
-        GameManager.instance.Player.GetComponent<PlayerStatus>().Damaged(false,attackPower, dmg[1]);
+        GameManager.instance.Player.GetComponent<PlayerStatus>().Damaged(false,attackPower, dmg[1] , transform.position.x);
     }
     public void Attack()
     {

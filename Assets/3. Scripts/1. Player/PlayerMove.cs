@@ -15,6 +15,8 @@ public class PlayerMove : MonoBehaviour
     public int isJump;
     public float boxSizeX;
     public float boxSizeY;
+    public bool isHit; // 피격판정 중인지 판단
+
 
     public Rigidbody2D rigid;
     BoxCollider2D bc;
@@ -24,6 +26,8 @@ public class PlayerMove : MonoBehaviour
     Animator animator;
     public AnimatorStateInfo animState;
     public string animName;
+
+
 
     Vector2 dashSpeed;
 
@@ -55,6 +59,11 @@ public class PlayerMove : MonoBehaviour
     {
         animState = animator.GetCurrentAnimatorStateInfo(0);
         animName = animState.shortNameHash.ToString();
+
+        if (isHit)
+        {
+            return;
+        }
 
         // 움직임
         Move();
@@ -114,7 +123,7 @@ public class PlayerMove : MonoBehaviour
                 {
                     collider.GetComponent<PlatformEffector2D>().surfaceArc = 0f;
                 }
-                return;
+                    return;
             }
         }
 
@@ -195,5 +204,17 @@ public class PlayerMove : MonoBehaviour
         {
             rigid.velocity = dashSpeed;
         }
+    }
+
+    public void HitOn()
+    {
+        isHit = true;
+        rigid.velocity = Vector3.zero;
+        Invoke("HitOff", 0.3f);
+    }
+
+    public void HitOff()
+    {
+        isHit = false;
     }
 }

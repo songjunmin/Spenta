@@ -180,7 +180,7 @@ public class Zombie : MonoBehaviour
         {
             if (hit.gameObject.tag == "Player")
             {
-                hit.GetComponent<PlayerStatus>().Damaged(false, attackPower, dmg[1]);
+                hit.GetComponent<PlayerStatus>().Damaged(false, attackPower, dmg[1], transform.position.x);
             }
         }
     }
@@ -206,7 +206,7 @@ public class Zombie : MonoBehaviour
         {
             if (hit.tag == "Player")
             {
-                hit.GetComponent<PlayerStatus>().Damaged(false, attackPower, dmg[0]);
+                hit.GetComponent<PlayerStatus>().Damaged(false, attackPower, dmg[0], transform.position.x);
             }
         }
     }

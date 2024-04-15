@@ -26,7 +26,7 @@ public class AsmodeusSpear : MonoBehaviour
                 Asmodeus asmodeus = es.gameObject.GetComponentInChildren<Asmodeus>();
                 param[0] = asmodeus.attackPower;
                 param[1] = asmodeus.dmg[asmodeus.GetNowAnim()];
-                collision.GetComponent<PlayerStatus>().Damaged(false,param[0], param[1]);
+                collision.GetComponent<PlayerStatus>().Damaged(false,param[0], param[1], transform.position.x);
             }
         }
     }
