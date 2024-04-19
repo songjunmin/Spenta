@@ -1364,6 +1364,7 @@ MonoBehaviour:
   isJump: 0
   boxSizeX: 0
   boxSizeY: 0
+  isHit: 0
   rigid: {fileID: 0}
   animName: 
 --- !u!114 &1429669622227627595
@@ -1415,8 +1416,8 @@ MonoBehaviour:
   nonSkillCanUse: 00000000
   skillRange:
   - range: 0000000032000000
-  - range: 00000000e8030000
-  - range: 38ffffffc8000000
+  - range: 0000000064000000
+  - range: ecffffff14000000
   flashRange: 0
   flashReset: 0
   flashResetTime: 0
@@ -1467,7 +1468,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!251 &2976220126163980341
 PlatformEffector2D:
@@ -1480,7 +1481,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 65
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -3333,7 +3334,7 @@ GameObject:
   - component: {fileID: 4321418578799042517}
   - component: {fileID: 2132685023364603195}
   - component: {fileID: 5651457553524872476}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Spear
   m_TagString: Untagged
   m_Icon: {fileID: 2800000, guid: d1de1604dfe4cb64c9d31246a8e43c78, type: 3}
@@ -14007,7 +14008,7 @@ GameObject:
   - component: {fileID: 7459138444091983090}
   - component: {fileID: 4043160899454603024}
   - component: {fileID: 6559608599406268739}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SpearHand
   m_TagString: Untagged
   m_Icon: {fileID: 2800000, guid: 97a43f11e00735147a9dc3dff6d68191, type: 3}

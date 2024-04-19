@@ -63,8 +63,13 @@ public class Asmodeus : MonoBehaviour
         {
             if (skillCurTime < 0)
             {
-                Skill();
-                skillCurTime = skillCoolTime;
+                if (GameManager.instance.Player.transform.position.x < transform.position.x + 10f &&
+                    GameManager.instance.Player.transform.position.x > transform.position.x - 10f)
+                {
+                    Skill();
+                    skillCurTime = skillCoolTime;
+                }
+                    
             }
 
             else if (attackCurTime < 0)
@@ -82,7 +87,23 @@ public class Asmodeus : MonoBehaviour
 
     }
 
+    private void OnDrawGizmos()
+    {
+        // 공격 사거리 11
+        // 스킬 사거리 23
 
+        // 플레이어 탐색 범위
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y + 2f), new Vector2(20, 6));
+
+        // 스킨 범위
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y + 1f), new Vector2(20, 1));
+
+        //공격 범위
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y), new Vector2(10, 1.5f));
+    }
     public void Dead()
     {
         anim.SetTrigger("dead");
@@ -97,7 +118,7 @@ public class Asmodeus : MonoBehaviour
             return;
         }
 
-        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x -10f, transform.position.y - 6f), new Vector2(transform.position.x + 10f, transform.position.y));
+        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(transform.position.x -10f, transform.position.y - 1f), new Vector2(transform.position.x + 10f, transform.position.y + 5));
 
         foreach (Collider2D hit in hits)
         {
@@ -112,6 +133,9 @@ public class Asmodeus : MonoBehaviour
 
     public void Move()
     {
+        // Test for no move enemy
+        return;
+
         // 다른 동작 중이라면
         if (!animState.IsName("idle"))
         {

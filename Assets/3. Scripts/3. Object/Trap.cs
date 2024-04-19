@@ -24,8 +24,6 @@ public class Trap : MonoBehaviour
         {
             if (curTime < 0)
             {
-                
-
                 collision.gameObject.GetComponent<PlayerStatus>().Damaged(true, dmg, 1f, transform.position.x);
                 curTime = coolTime;
             }

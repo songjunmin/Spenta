@@ -145,6 +145,12 @@ public class PlayerMove : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
+            if (animState.IsName("Block") || animState.IsName("Shot") || animState.IsName("Block"))
+            {
+                return;
+            }
+
+
             // 아래키를 누르고있으면 아래점프
             if (Input.GetButton("Down"))
             {

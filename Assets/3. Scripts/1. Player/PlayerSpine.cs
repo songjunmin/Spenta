@@ -8,7 +8,7 @@ using System.Drawing;
 public class PlayerSpine : MonoBehaviour
 {
     public SkeletonAnimation skeletonAnimation;
-
+    public AnimatorStateInfo animState;
     public Spine.AnimationState state;
 
     public SkeletonData skeletonData;
@@ -40,7 +40,8 @@ public class PlayerSpine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        animState = animator.GetCurrentAnimatorStateInfo(0);
+
         if (playerMove.moveDir == 0)
         {
             isMove = false;
@@ -70,7 +71,12 @@ public class PlayerSpine : MonoBehaviour
 
     public void Action(PlayerAction.SkillName skillName)
     {
-       switch (skillName)
+        if (!animState.IsName("Run") && !animState.IsName("Stand"))
+        {
+            return;
+        }
+
+        switch (skillName)
         {
             case PlayerAction.SkillName.Asha:
                 animator.SetTrigger("asha");
@@ -86,6 +92,7 @@ public class PlayerSpine : MonoBehaviour
 
 
         }
+        
     }
     public void Action(PlayerAction.NonSkillName nonSkillName)
     {

@@ -29,10 +29,13 @@ public class Bear : MonoBehaviour
 
     public float startX, startY, lenX, lenY;
 
+    public BearSkill bs;
+
     void Start()
     {
         rigid = GetComponentInParent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        bs = GetComponentInChildren<BearSkill>();
         SelectDir();
     }
 
@@ -235,5 +238,14 @@ public class Bear : MonoBehaviour
         {
             return 1;
         }
+    }
+
+    public void SkillActiveOn()
+    {
+        bs.ActiveOn();
+    }
+    public void SkillActiveOff()
+    {
+        bs.ActiveOff();
     }
 }

@@ -61,6 +61,6 @@ public class PlayerSkill : MonoBehaviour
 
     public void AshaFire()
     {
-        Instantiate(ashaFire, transform.position + new Vector3(0f,7f,0f), Quaternion.identity);
+        Instantiate(ashaFire, transform.position + new Vector3(0f,3.5f,0f), Quaternion.identity);
     }
 }

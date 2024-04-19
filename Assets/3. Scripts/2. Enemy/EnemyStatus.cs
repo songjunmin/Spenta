@@ -27,6 +27,21 @@ public class EnemyStatus : MonoBehaviour
         
     }
 
+    int FindOrder(string name)
+    {
+        switch (name)
+        {
+            case "First":
+                return 0;
+
+            case "Second":
+                return 1;
+
+            default:
+                return -1;
+        }
+    }
+
     // attack type 0 : 일반 / 1 : 스킬
     public void Damaged(float dmg, float coefficient, float attackType)
     {
@@ -50,6 +65,7 @@ public class EnemyStatus : MonoBehaviour
         if (hp <= 0)
         {
             StartCoroutine(Dead());
+            transform.parent.parent.GetComponent<StageManager>().DeadEnemy(FindOrder(transform.parent.name));
             Debug.Log("Dead");
         }
         
@@ -96,7 +112,7 @@ public class EnemyStatus : MonoBehaviour
                 transform.GetChild(0).rotation = Quaternion.Euler(0, 0, 65 * timeRemain);
             }
             bc.enabled = false;
-
+            GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
             if (timeRemain < 0.5f)
             {
                 transform.GetChild(0).position = transform.GetChild(0).position + new Vector3(0, 3 * Time.deltaTime, 0);

@@ -27,6 +27,8 @@ public class Spear : MonoBehaviour
     {
         if (collision != null)
         {
+            Debug.Log(collision.name);
+
             if (collision.tag == "Enemy")
             {
                 param[0] = GameManager.instance.Player.GetComponent<PlayerStatus>().attackPower;

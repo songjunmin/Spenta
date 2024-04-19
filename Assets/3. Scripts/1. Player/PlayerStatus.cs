@@ -31,6 +31,8 @@ public class PlayerStatus : MonoBehaviour
     public float[] nonSkillCurTime = new float[3];
     public bool[] nonSkillCanUse = new bool[3];
 
+   
+
     [Serializable]
     public class List
     {
@@ -53,6 +55,18 @@ public class PlayerStatus : MonoBehaviour
         }
     }
     public List[] skillRange = new List[3];
+
+    private void OnDrawGizmos()
+    {
+        // 공격 사거리 11
+        // 스킬 사거리 23
+
+
+        // 스킨 범위
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y + 1f), new Vector2(skillRange[2].GetRange1(), 1));
+
+    }
 
     /*
     // 보후만 쿨타임
@@ -232,16 +246,18 @@ public class PlayerStatus : MonoBehaviour
         }
         peaceTime = needForPeace;
 
-        pm.HitOn();
-        if (transform.position.x > attVecX)
+        if (!trueDamaged)
         {
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(1, 0.5f) * force, ForceMode2D.Impulse);
+            pm.HitOn();
+            if (transform.position.x > attVecX)
+            {
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(1, 0.5f) * force, ForceMode2D.Impulse);
+            }
+            else
+            {
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(-1, 0.5f) * force, ForceMode2D.Impulse);
+            }
         }
-        else
-        {
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(-1, 0.5f) * force, ForceMode2D.Impulse);
-        }
-        
         ChangeHp();
     }
 
