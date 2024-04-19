@@ -19,7 +19,7 @@ public class Trap : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        
+
         if (collision.gameObject.layer == 3)
         {
             if (curTime < 0)

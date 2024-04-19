@@ -100,8 +100,9 @@ public class Flog : MonoBehaviour
 
             else if (distance < 7 && attackCurTime < 0)
             {
-                if (GameManager.instance.Player.transform.position.x < transform.position.x + 5f &&
-                    GameManager.instance.Player.transform.position.x > transform.position.x - 5f)
+
+                if (Mathf.Abs(GameManager.instance.Player.transform.position.x - transform.position.x) < 5f && 
+                    Mathf.Abs(poison.transform.position.y - GameManager.instance.Player.transform.position.y) < 5f)
                 {
                     Attack();
                     attackCurTime = attackCoolTime;
@@ -225,7 +226,6 @@ public class Flog : MonoBehaviour
         Vector3 loc = GameManager.instance.Player.transform.position + new Vector3(0, 2, 0);
         poison.transform.position = loc;
 
-        
         if ((loc.x - transform.position.x) * transform.parent.localScale.x < 0)
         {
             poison.GetComponent<SkeletonUtilityBone>().scale = true;
@@ -234,6 +234,7 @@ public class Flog : MonoBehaviour
         {
             poison.GetComponent<SkeletonUtilityBone>().scale = false;
         }
+        
     }
 
     public void CheckPlayerLoc()
@@ -244,6 +245,7 @@ public class Flog : MonoBehaviour
         }
 
         GetComponent<MeshRenderer>().sortingOrder = 3;
+
 
         if (Mathf.Abs(poison.transform.position.x - GameManager.instance.Player.transform.position.x) < 1.5f)
         {
@@ -257,8 +259,8 @@ public class Flog : MonoBehaviour
         {
             poison.GetComponent<SkeletonUtilityBone>().scale = false;
         }
+        
     }
-
     public void OffLayer()
     {
         GetComponent<MeshRenderer>().sortingOrder = 0;

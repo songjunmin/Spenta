@@ -25,9 +25,6 @@ public class PlayerMove : MonoBehaviour
 
     Animator animator;
     public AnimatorStateInfo animState;
-    public string animName;
-
-
 
     Vector2 dashSpeed;
 
@@ -58,7 +55,6 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         animState = animator.GetCurrentAnimatorStateInfo(0);
-        animName = animState.shortNameHash.ToString();
 
         if (isHit)
         {
@@ -223,4 +219,5 @@ public class PlayerMove : MonoBehaviour
     {
         isHit = false;
     }
+
 }
