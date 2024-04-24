@@ -52,6 +52,8 @@ public class SaveData
 
     // SceneLoad
     public int stage;
+    public int nowStage;
+    public List<int> randomList;
     public List<int> stageList;
 }
 
@@ -74,8 +76,24 @@ public class SaveLoadMng : MonoBehaviour
 
     }
 
+    public void Reset()
+    {
+        path = Path.Combine(Application.dataPath, "database.json");
+
+        if (!File.Exists(path))
+        {
+            Debug.Log("세이브 경로 에러");
+        }
+        else
+        {
+            File.Delete(path);
+        }
+    }
+
     public void JsonLoad()
     {
+        Debug.Log(123);
+
 
         path = Path.Combine(Application.dataPath, "database.json");
         SaveData saveData = new SaveData();
@@ -137,6 +155,8 @@ public class SaveLoadMng : MonoBehaviour
 
                 // SceneLoad
                 sl.stage = saveData.stage;
+                sl.nowStage = saveData.nowStage;
+                sl.randomList = saveData.randomList;
                 sl.stageList = saveData.stageList;
             }
         }
@@ -194,6 +214,8 @@ public class SaveLoadMng : MonoBehaviour
         // SceneLoad
         saveData.stage = sl.stage;
         saveData.stageList = sl.stageList;
+        saveData.randomList = sl.randomList;
+        saveData.nowStage = sl.nowStage;
 
         string json = JsonUtility.ToJson(saveData, true);
 
