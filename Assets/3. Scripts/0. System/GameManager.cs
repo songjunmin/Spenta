@@ -83,8 +83,12 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.F12))
         {
             GetComponent<SaveLoadMng>().JsonLoad();
-        } 
+        }
         else if (Input.GetKeyDown(KeyCode.F10))
+        {
+            GetComponent<SaveLoadMng>().Reset();
+        }
+        else if (Input.GetKeyDown(KeyCode.F9))
         {
             Vector3 nowLoc = GameManager.instance.Player.transform.position;
 

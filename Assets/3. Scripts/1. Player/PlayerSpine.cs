@@ -120,7 +120,6 @@ public class PlayerSpine : MonoBehaviour
 
     public void OffSpearBoxCollider()
     {
-        Debug.Log("off");
         spearBoxCollider.enabled = false;
     }
     public void OnSpearHandBoxCollider()
