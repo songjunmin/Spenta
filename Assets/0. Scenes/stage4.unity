@@ -5005,7 +5005,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4694636028583968896, guid: d86b4acfe292aa0429e144b2ba0f3a8d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5133482568464644833, guid: d86b4acfe292aa0429e144b2ba0f3a8d, type: 3}
       propertyPath: m_LocalScale.x
@@ -6743,7 +6743,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4694636028583968896, guid: d86b4acfe292aa0429e144b2ba0f3a8d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5133482568464644833, guid: d86b4acfe292aa0429e144b2ba0f3a8d, type: 3}
       propertyPath: m_LocalScale.x
@@ -12433,7 +12433,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1522879285
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14799,7 +14799,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4694636028583968896, guid: d86b4acfe292aa0429e144b2ba0f3a8d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5133482568464644833, guid: d86b4acfe292aa0429e144b2ba0f3a8d, type: 3}
       propertyPath: m_LocalScale.x

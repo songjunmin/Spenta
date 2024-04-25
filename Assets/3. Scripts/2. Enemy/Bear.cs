@@ -150,7 +150,7 @@ public class Bear : MonoBehaviour
         }
         else
         {
-            rigid.velocity = Vector2.zero;
+            rigid.velocity = new Vector2(0,rigid.velocity.y);
         }
     }
 

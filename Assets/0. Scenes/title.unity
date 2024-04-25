@@ -267,8 +267,8 @@ MonoBehaviour:
   isJump: 0
   boxSizeX: 0
   boxSizeY: 0
+  isHit: 0
   rigid: {fileID: 0}
-  animName: 
 --- !u!251 &13180111
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -9872,6 +9872,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'GameManager '
       objectReference: {fileID: 0}
+    - target: {fileID: 4362548952767349924, guid: 436178bd5b85c3149a39a3e95b9680e5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4451235291372922068, guid: 436178bd5b85c3149a39a3e95b9680e5, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.9859815
@@ -9946,7 +9950,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6150286518645914939, guid: 436178bd5b85c3149a39a3e95b9680e5, type: 3}
       propertyPath: randomList.Array.size
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6150286518645914939, guid: 436178bd5b85c3149a39a3e95b9680e5, type: 3}
       propertyPath: randomList.Array.data[0]
@@ -9971,6 +9975,10 @@ PrefabInstance:
     - target: {fileID: 6150286518645914939, guid: 436178bd5b85c3149a39a3e95b9680e5, type: 3}
       propertyPath: randomList.Array.data[5]
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6150286518645914939, guid: 436178bd5b85c3149a39a3e95b9680e5, type: 3}
+      propertyPath: stageStartLoc.Array.size
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6150286518645914939, guid: 436178bd5b85c3149a39a3e95b9680e5, type: 3}
       propertyPath: stageStartLoc.Array.data[2]
@@ -13468,6 +13476,7 @@ MonoBehaviour:
     rare: 0
     legendary: 0
   ameshaPanel: {fileID: 771888157}
+  spentaPanel: {fileID: 0}
   rarityNum: 0
 --- !u!114 &1559079501
 MonoBehaviour:
@@ -15893,7 +15902,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 65
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0

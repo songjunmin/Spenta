@@ -65,7 +65,7 @@ public class SceneLoad : MonoBehaviour
             return;
         }
 
-        if (stage == 4)
+        if (stage == 3)
         {
             stage++;
             GameManager.instance.transform.GetChild(0).gameObject.SetActive(true);
