@@ -104,6 +104,22 @@ public class GameManager : MonoBehaviour
         hpBar.fillAmount = Player.GetComponent<PlayerStatus>().hp / Player.GetComponent<PlayerStatus>().maxHp;
     }
 
+    public void EnemyDead()
+    {
+        if (Player.GetComponent<PlayerStatus>().flashReset)
+        {
+            if (Player.GetComponent<PlayerStatus>().flashResetTime > 0)
+            {
+                Player.GetComponent<PlayerStatus>().nonSkillCurTime[0] = 0;
+            }
+        }
+
+        if (Player.GetComponent<PlayerStatus>().bohumanReset)
+        {
+            Player.GetComponent<PlayerStatus>().skillCurTime[0] = 0;
+        }
+    }
+
     public void Test()
     {
         if (Input.GetKeyDown(KeyCode.Keypad1))  

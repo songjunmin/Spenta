@@ -222,7 +222,7 @@ public class UiManager : MonoBehaviour
 
         if (ws.nowAmeshaWarrant[0].GetPointByInt(2) != 0)
         {
-            explain += "\n스킬 사용 후 1초 이내에 적 처치 시 쿨타임 초기화";
+            explain += "\n사용 후 1초안에 적 처치 시 쿨타임 초기화";
         }
         ameshaWarrantTexts[0].text = explain;
 

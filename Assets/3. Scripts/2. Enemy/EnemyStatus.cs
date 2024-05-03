@@ -87,6 +87,8 @@ public class EnemyStatus : MonoBehaviour
 
         string enemyName = gameObject.name;
 
+        // 스킬 초기화를 위해 Game Manager의 함수 호출
+        GameManager.instance.EnemyDead();
        
         switch (enemyName)
         {

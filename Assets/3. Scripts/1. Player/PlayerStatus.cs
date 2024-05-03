@@ -31,7 +31,7 @@ public class PlayerStatus : MonoBehaviour
     public float[] nonSkillCurTime = new float[3];
     public bool[] nonSkillCanUse = new bool[3];
 
-   
+    public bool bohumanReset;
 
     [Serializable]
     public class List
@@ -67,29 +67,6 @@ public class PlayerStatus : MonoBehaviour
         Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y + 1f), new Vector2(skillRange[2].GetRange1(), 1));
 
     }
-
-    /*
-    // º¸ÈÄ¸¸ ÄðÅ¸ÀÓ
-    public float bohumanskillCoolTime;
-    public float bohumanskillCurTime;
-    public bool bohumanSkill;
-
-    // Ä«»çÆ®¶ó ÄðÅ¸ÀÓ
-    public float cassatraskillCoolTime;
-    public float cassatraskillCurTime;
-    public bool cassatraSkill;
-
-    // ¾Æ»þ ÄðÅ¸ÀÓ
-    public float ashaskillCoolTime;
-    public float ashaskillCurTime;
-    public bool ashaSkill;
-
-    // ¾Æ¸£¸¶ÀÌÆ¼ ÄðÅ¸ÀÓ
-    public float armaityskillCoolTime;
-    public float armaityskillCurTime;
-    public bool armaitySkill;
-    */
-
 
     // ¾Æ¸Þ»þÀÇ ±Ç´É
 
@@ -153,17 +130,16 @@ public class PlayerStatus : MonoBehaviour
                 nonSkillCanUse[i] = true;
             }
         }
-    }
 
-    public IEnumerator FlashCoolTimeReset()
-    {
-        flashResetTime = 1f;
-
-        while (flashResetTime > 0)
+        if (flashResetTime > 0)
         {
             flashResetTime -= Time.deltaTime;
-            yield return null;
         }
+    }
+
+    public void FlashCoolTimeReset()
+    {
+        flashResetTime = 1f;
     }
     public void Action(PlayerAction.SkillName skillName)
     {

@@ -18,6 +18,9 @@ public class SceneLoad : MonoBehaviour
 
     public Image loadingImg;
 
+    // 보후 마나흐 등장 위치
+    public float manahLoc;
+
     void Start()
     {
         
@@ -48,6 +51,7 @@ public class SceneLoad : MonoBehaviour
     {
         GetComponent<SaveLoadMng>().JsonLoad();
 
+        // 새로 하기
         if (nowStage == 0)
         {
             while (randomList.Count > 0)
@@ -57,6 +61,7 @@ public class SceneLoad : MonoBehaviour
                 randomList.RemoveAt(randInt);
             };
         }
+        // 이어 하기
         else
         {
             stageList.Insert(0, nowStage);
@@ -72,6 +77,7 @@ public class SceneLoad : MonoBehaviour
     {
         LoadingStart();
 
+        // 처음 맵 일 경우
         if (stage == -1)
         {
             stage++;
@@ -80,6 +86,7 @@ public class SceneLoad : MonoBehaviour
             return;
         }
 
+        // 3번째 맵 (각성 스테이지) 일 경우
         if (stage == 2)
         {
             stage++;

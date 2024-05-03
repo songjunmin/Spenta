@@ -265,7 +265,7 @@ public class WarrantSystem : MonoBehaviour
                         break;
 
                     case 3:
-
+                        GameManager.instance.Player.GetComponent<PlayerStatus>().bohumanReset = true;
                         // 적 처치시 쿨타임 초기화
                         break;
                 }

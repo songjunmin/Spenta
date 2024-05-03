@@ -10055,7 +10055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   first: {fileID: 29975519}
   second: {fileID: 523871200}
-  enemyCount: 
+  enemyCount: 0000000000000000
   portal: {fileID: 1522879284}
   bonfire: {fileID: 1968206503}
 --- !u!1 &1210574348
@@ -12599,7 +12599,7 @@ Transform:
   m_GameObject: {fileID: 1522879284}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 51.414146, y: 7.4607368, z: -2.6032355}
+  m_LocalPosition: {x: 35, y: 7.4607368, z: -2.6032355}
   m_LocalScale: {x: 1.5315, y: 4.3405757, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
