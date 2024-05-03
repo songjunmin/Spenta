@@ -35,12 +35,10 @@ public class GameManager : MonoBehaviour
     public GameObject warrantOfSpentaPanel;
     public GameObject warrantOfAmeshaPanel;
 
-    public float interactionRange;
+    
 
     // 상태이상 유지 시간
     public float[] abnormalTime; // 0 : Slow
-
-
 
 
     private void Awake()
@@ -66,15 +64,13 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Test();
-        FindInteraction();
-        ESC();
+       
         CntlAbnormal();
 
         if (Input.GetKeyDown(KeyCode.F4))
         {
             Debug.Log(Player.transform.position);
         }
-        
 
         else if (Input.GetKeyDown(KeyCode.F11))
         {
@@ -123,47 +119,10 @@ public class GameManager : MonoBehaviour
        
     }
 
-    public void FindInteraction()
-    {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            Collider2D[] hits = Physics2D.OverlapCircleAll(Player.transform.position, interactionRange);
-
-            foreach (Collider2D hit in hits)
-            {
-                Interaction inter = hit.GetComponent<Interaction>();
-                if (inter != null)
-                {
-                    Debug.Log(inter.name);
-                    hit.SendMessage("SendInteraction");
-                    return;
-                }
-            }
-        }
-
-        
-    }
-
+    
     public void NextStage()
     {
         GetComponent<SceneLoad>().LoadScene();
-    }
-
-    public void ESC()
-    {
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            if (warrantOfAmeshaPanel.activeSelf)
-            {
-                warrantOfAmeshaPanel.SetActive(false);
-                Time.timeScale = 1f;
-            }
-            if (warrantOfSpentaPanel.activeSelf)
-            {
-                warrantOfSpentaPanel.SetActive(false);
-                Time.timeScale = 1f;
-            }
-        }
     }
 
     public void ChangeSparkOfKnowledge(int num)

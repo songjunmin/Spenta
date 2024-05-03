@@ -66,7 +66,7 @@ public class CameraMove : MonoBehaviour
                 maxX = 15;
                 minY = 1;
                 maxY = 10;
-                break;
+                break;  
 
             default:
                 minX = -10;

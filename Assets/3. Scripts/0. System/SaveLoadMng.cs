@@ -124,7 +124,6 @@ public class SaveLoadMng : MonoBehaviour
                 ps.maxShield = saveData.maxShield;
                 ps.attackPower = saveData.attackPower;
                 ps.defense = saveData.defense;
-                ps.attackSpeed = saveData.attackSpeed;
                 ps.skillCoolTime = saveData.skillCoolTime;
                 ps.skillCurTime = saveData.skillCurTime;
                 ps.skillCanUse = saveData.skillCanUse;
@@ -182,7 +181,6 @@ public class SaveLoadMng : MonoBehaviour
         saveData.maxShield = ps.maxShield;
         saveData.attackPower = ps.attackPower;
         saveData.defense = ps.defense;
-        saveData.attackSpeed = ps.attackSpeed;
         saveData.skillCoolTime = ps.skillCoolTime;
         saveData.skillCurTime = ps.skillCurTime;
         saveData.skillCanUse = ps.skillCanUse;

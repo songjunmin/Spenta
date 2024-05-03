@@ -562,7 +562,7 @@ public class WarrantSystem : MonoBehaviour
                     // Èñ±Í Æ¯¼º
                     case 1:
 
-                        GameManager.instance.Player.GetComponent<PlayerStatus>().attackSpeed += 0.2f;
+                        GameManager.instance.Player.GetComponent<PlayerStatus>().nonSkillCoolTime[2] -= 0.1f;
                         break;
 
                     // Àü¼³ Æ¯¼º

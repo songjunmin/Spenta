@@ -4,29 +4,38 @@ using UnityEngine;
 
 public class PlayerSkill : MonoBehaviour
 {
-    public Animator animator;
-    
     PlayerStatus playerStatus;
     PlayerMove playerMove;
 
+    public float flashRange;
     public float dashSpeed;
 
     public GameObject ashaFire;
 
+
     private void Start()
     {
-        playerStatus = gameObject.GetComponentInParent<PlayerStatus>();
-        playerMove = gameObject.GetComponentInParent<PlayerMove>();
+        playerStatus = GetComponentInParent<PlayerStatus>();
+        playerMove = GetComponentInParent<PlayerMove>();
     }
     public void Action(PlayerAction.NonSkillName nonSkillName)
     {
         switch (nonSkillName)
         {
             case PlayerAction.NonSkillName.Dash:
-                if (gameObject.GetComponent<PlayerStatus>().flashReset)
+                if (transform.parent.GetComponent<PlayerStatus>().nonSkillCanUse[0])
                 {
-                    StopCoroutine(gameObject.GetComponent<PlayerStatus>().FlashCoolTimeReset());
-                    StartCoroutine(gameObject.GetComponent<PlayerStatus>().FlashCoolTimeReset());
+                    /*
+                    Vector2 startVec = transform.position + new Vector3(0, 0.5f);
+                    RaycastHit2D hit = Physics2D.Raycast(startVec, new Vector2(transform.parent.localScale.x, 0), flashRange, 6);
+
+                    if (!hit)
+                    {
+                        transform.parent.position += new Vector3(flashRange * transform.parent.localScale.x, 0, 0);
+                    }
+                    */
+
+
                 }
                 break;
 
@@ -48,15 +57,25 @@ public class PlayerSkill : MonoBehaviour
                 break;
         }
     }
-
     public void DashOn()
     {
-        playerMove.ChangeVelocity(new Vector2(dashSpeed * playerMove.lookDir, 0));
+        StartCoroutine(Dash());
     }
-
-    public void DashOff()
+    IEnumerator Dash()
     {
-        playerMove.ChangeVelocity(new Vector2(0, 0));
+        float remainTime = 0.12f;
+        while(remainTime > 0)
+        {
+
+            Vector3 velocity = transform.parent.GetComponent<Rigidbody2D>().velocity;
+            transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(transform.parent.localScale.x * dashSpeed, velocity.y);
+
+            remainTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(0, transform.parent.GetComponent<Rigidbody2D>().velocity.y);
+
     }
 
     public void AshaFire()

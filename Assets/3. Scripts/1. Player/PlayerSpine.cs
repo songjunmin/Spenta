@@ -64,10 +64,7 @@ public class PlayerSpine : MonoBehaviour
         animator.SetBool("isJump", isJump);
     }
 
-    void SpineMng()
-    {
-        
-    }
+
 
     public void Action(PlayerAction.SkillName skillName)
     {

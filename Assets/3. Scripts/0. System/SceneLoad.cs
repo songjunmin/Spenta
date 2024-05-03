@@ -14,6 +14,7 @@ public class SceneLoad : MonoBehaviour
 
     public List<int> randomList;
     public List<int> stageList;
+    public int nowStage;
 
     public Image loadingImg;
 
@@ -32,20 +33,37 @@ public class SceneLoad : MonoBehaviour
         stageText.text = "1-" + stage;
     }
 
+    public void NewGame()
+    {
+        GetComponent<UiManager>().ESC();
+        GetComponent<SaveLoadMng>().Reset();
+
+        SceneManager.LoadScene(8);
+        nowStage = 0;
+
+        GameManager.instance.Player.transform.position = new Vector3(-7.383516f , -7.115751f, 0);
+    }
+
     public void GameStart()
     {
         GetComponent<SaveLoadMng>().JsonLoad();
 
-        if (stageList.Count == 0 && stage == 1)
+        if (nowStage == 0)
         {
             while (randomList.Count > 0)
             {
                 int randInt = Random.Range(0, randomList.Count);
                 stageList.Add(randomList[randInt]);
                 randomList.RemoveAt(randInt);
-            }
+            };
+        }
+        else
+        {
+            stageList.Insert(0, nowStage);
             stage--;
         }
+        GameManager.instance.transform.GetChild(0).gameObject.SetActive(true);
+        GameManager.instance.transform.GetChild(1).gameObject.SetActive(true);
 
         LoadScene();
     }
@@ -54,22 +72,18 @@ public class SceneLoad : MonoBehaviour
     {
         LoadingStart();
 
-        if (stage == 0)
+        if (stage == -1)
         {
             stage++;
-            GameManager.instance.transform.GetChild(0).gameObject.SetActive(true);
-            GameManager.instance.transform.GetChild(1).gameObject.SetActive(true);
-            
             SetStage();
             SceneManager.LoadScene(8);
             return;
         }
 
-        if (stage == 3)
+        if (stage == 2)
         {
             stage++;
-            GameManager.instance.transform.GetChild(0).gameObject.SetActive(true);
-            GameManager.instance.transform.GetChild(1).gameObject.SetActive(true);
+            GameManager.instance.Player.transform.position = new Vector3(0, 0, 0);
 
             SetStage();
             SceneManager.LoadScene(9);
@@ -77,6 +91,7 @@ public class SceneLoad : MonoBehaviour
         }
 
         int nextStage = stageList[0];
+        nowStage = stageList[0];
         Debug.Log(nextStage);
         stage++;
         stageList.RemoveAt(0);
@@ -91,7 +106,7 @@ public class SceneLoad : MonoBehaviour
     {
         loadingImg.gameObject.SetActive(true);
 
-        Invoke("LoadingEnd", 1f);
+        Invoke("LoadingEnd", 0.5f);
     }
 
     public void LoadingEnd()

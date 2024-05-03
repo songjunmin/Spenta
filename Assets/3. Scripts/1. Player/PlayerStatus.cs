@@ -17,7 +17,7 @@ public class PlayerStatus : MonoBehaviour
 
     public float attackPower;
     public float defense;
-    public float attackSpeed;
+
 
     // 보후만 , 카사트라 , 아샤 , 아르마이티
 
@@ -119,13 +119,14 @@ public class PlayerStatus : MonoBehaviour
 
 
     PlayerMove pm;
-
+    PlayerSpine ps;
     void Start()
     {
         peaceTime = 0;
         isFighting = false;
 
         pm = GetComponent<PlayerMove>();
+        ps = transform.GetChild(0).GetComponent<PlayerSpine>();
     }
 
     void Update()
@@ -151,6 +152,17 @@ public class PlayerStatus : MonoBehaviour
             {
                 nonSkillCanUse[i] = true;
             }
+        }
+    }
+
+    public IEnumerator FlashCoolTimeReset()
+    {
+        flashResetTime = 1f;
+
+        while (flashResetTime > 0)
+        {
+            flashResetTime -= Time.deltaTime;
+            yield return null;
         }
     }
     public void Action(PlayerAction.SkillName skillName)
@@ -208,7 +220,7 @@ public class PlayerStatus : MonoBehaviour
         shieldBar.fillAmount = shield / maxShield;
     }
 
-    public void Damaged(bool trueDamaged, float atkPower, float coefficient , float attVecX)
+    public void Damaged(bool trueDamaged, float atkPower, float coefficient , float attVecX )
     {
         float totalDamage = atkPower * coefficient;
 
@@ -225,6 +237,15 @@ public class PlayerStatus : MonoBehaviour
         else
         {
             force = 0f;
+        }
+
+        if (ps.animState.IsName("Block"))
+        {
+            if ((transform.position.x - attVecX) * transform.localScale.x < 0)
+            {
+                Debug.Log("막음");
+                return;
+            }
         }
 
         if (shield > 0)
@@ -267,16 +288,7 @@ public class PlayerStatus : MonoBehaviour
         ChangeHp();
     }
 
-    public IEnumerator FlashCoolTimeReset()
-    {
-        flashResetTime = 1f;
 
-        while (flashResetTime > 0)
-        {
-            flashResetTime -= Time.deltaTime;
-            yield return null;
-        }
-    }
 
     public void EnemyDead()
     {

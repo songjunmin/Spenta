@@ -27,10 +27,6 @@ public class PlayerAction : MonoBehaviour
 
     void SkillMng()
     {
-        // 다른 행동 중일 경우 처리 필요
-
-
-
         if (Input.GetKeyDown(KeyCode.E))
         {
             // 보후만 사용

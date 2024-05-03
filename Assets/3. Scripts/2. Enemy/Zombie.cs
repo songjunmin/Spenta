@@ -41,7 +41,7 @@ public class Zombie : MonoBehaviour
         // 공격 사거리 9
         // 스킬 사거리 24
         Gizmos.color = Color.blue;
-        Gizmos.DrawCube(new Vector3(startX * transform.parent.localScale.x, startY, 0) + transform.position, new Vector3(lenX, lenY, 0));
+        Gizmos.DrawWireCube(new Vector2(3 * transform.parent.localScale.x + transform.position.x, transform.position.y + 2.5f), new Vector2(3, 6));
     }
 
     void Update()
@@ -199,7 +199,7 @@ public class Zombie : MonoBehaviour
 
     public void AttackDmg()
     {
-        Vector2 v2 = new Vector2(6 * transform.parent.localScale.x + transform.position.x, transform.position.y + 2.5f);
+        Vector2 v2 = new Vector2(3 * transform.parent.localScale.x + transform.position.x, transform.position.y + 2.5f);
         Collider2D[] hits = Physics2D.OverlapBoxAll(v2, new Vector2(3, 6), 0);
 
         foreach (Collider2D hit in hits)

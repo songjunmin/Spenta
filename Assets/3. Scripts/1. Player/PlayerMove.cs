@@ -69,9 +69,6 @@ public class PlayerMove : MonoBehaviour
         
         // Test
         UnityEngine.Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 0.01f), Vector2.down, Color.red);
-
-        // ´ë½¬
-        Dash();
         
     }
 
@@ -200,13 +197,7 @@ public class PlayerMove : MonoBehaviour
         dashSpeed = vector2;
     }
 
-    void Dash()
-    {
-        if (animState.IsName("Lion"))
-        {
-            rigid.velocity = dashSpeed;
-        }
-    }
+
 
     public void HitOn()
     {

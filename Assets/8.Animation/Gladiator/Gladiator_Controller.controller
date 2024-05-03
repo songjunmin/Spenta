@@ -1081,13 +1081,6 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.9
-    functionName: DashOff
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
 --- !u!1101 &-2880128464797828027
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

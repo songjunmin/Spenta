@@ -9,7 +9,7 @@ public class StageManager : MonoBehaviour
     public int[] enemyCount;
 
     public GameObject portal;
-
+    public GameObject bonfire;
     private void Start()
     {
         enemyCount[0] = first.transform.childCount;
@@ -46,7 +46,8 @@ public class StageManager : MonoBehaviour
                 break;
 
             case 1:
-                portal.gameObject.SetActive(true);
+                portal.SetActive(true);
+                bonfire.SetActive(true);
                 break;
         }
     }
