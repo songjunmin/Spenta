@@ -161,7 +161,7 @@ public class WarrantSystem : MonoBehaviour
 
 
     // ½ºÆæÅ¸ÀÇ ±Ç´É ´­·¶À»‹š (Test)
-    public void GetWarrant()
+    public void GetWarrant(int num)
     {
         if (GameManager.instance.pieceOfEnlightenment <= 0)
         {
@@ -169,51 +169,26 @@ public class WarrantSystem : MonoBehaviour
             return;
         }
 
-        
-
         GameObject nowClicked = EventSystem.current.currentSelectedGameObject;
         string btnName = nowClicked.name;
 
         string ParentName = nowClicked.transform.parent.name;
 
-        int i = 0;
-        switch(ParentName)
+        int i = num / 10 - 1;
+        int j = num % 10 - 1;
+
+        switch(j)
         {
-            case "Bohuman":
-                i = 0;
-                break;
-
-            case "Cassatra":
-                i = 1;
-                break;
-
-            case "Asha":
-                i = 2;
-                break;
-        }
-
-
-        switch(btnName)
-        {
-            case "basic1":
-                if (nowSpentaWarrant[i].basic1 < maxSpentaWarrant[i].basic1)
+            case 0:
+                if (nowSpentaWarrant[i].advanced < maxSpentaWarrant[i].advanced)
                 {
-                    nowSpentaWarrant[i].basic1++;
-                    ApplyWarrant(i, 0);
+                    nowSpentaWarrant[i].advanced++;
+                    ApplyWarrant(i, 3);
                     GameManager.instance.ChangePieceOfEnlightenment(-1);
                 }
                 break;
 
-            case "basic2":
-                if (nowSpentaWarrant[i].basic2 < maxSpentaWarrant[i].basic2)
-                {
-                    nowSpentaWarrant[i].basic2++;
-                    ApplyWarrant(i, 1);
-                    GameManager.instance.ChangePieceOfEnlightenment(-1);
-                }
-                break;
-
-            case "intermediate":
+            case 1:
                 if (nowSpentaWarrant[i].intermediate < maxSpentaWarrant[i].intermediate)
                 {
                     nowSpentaWarrant[i].intermediate++;
@@ -222,14 +197,27 @@ public class WarrantSystem : MonoBehaviour
                 }
                 break;
 
-            case "advanced":
-                if (nowSpentaWarrant[i].advanced < maxSpentaWarrant[i].advanced)
+            case 2:
+                if (nowSpentaWarrant[i].basic1 < maxSpentaWarrant[i].basic1)
                 {
-                    nowSpentaWarrant[i].advanced++;
-                    ApplyWarrant(i, 3);
+                    nowSpentaWarrant[i].basic1++;
+                    ApplyWarrant(i, 0);
                     GameManager.instance.ChangePieceOfEnlightenment(-1);
                 }
                 break;
+
+            case 3:
+                if (nowSpentaWarrant[i].basic2 < maxSpentaWarrant[i].basic2)
+                {
+                    nowSpentaWarrant[i].basic2++;
+                    ApplyWarrant(i, 1);
+                    GameManager.instance.ChangePieceOfEnlightenment(-1);
+                }
+                break;
+
+            
+
+            
 
         }
 

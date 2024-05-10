@@ -37,13 +37,18 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    // 설정
+    // 메뉴 아메샤 스펜타 상태창 조작법 설정
     public GameObject[] UIPanels;
 
     public Text typeExplain;
     public Text[] statusTexts;
     public Text[] ameshaWarrantTexts;
-    public Text[] spentaWarrantTexts;
+
+
+    public Text spentaWarrantExplainTitleText;
+    public Text spentaWarrantExplainText;
+    public GameObject[] spentaWarrantTpyePanels;
+    int spentaWarrantNowContents;
 
 
     public GameObject statPanel;
@@ -57,11 +62,14 @@ public class UiManager : MonoBehaviour
     public List<Dialogue> dialogueList = new List<Dialogue>();
     Dialogue nowDialogue;
 
+    WarrantSystem ws;
 
     public float interactionRange;
     private void Start()
     {
         SetDialogue();
+
+        ws = GetComponent<WarrantSystem>();
     }
 
     private void Update()
@@ -271,48 +279,121 @@ public class UiManager : MonoBehaviour
         ameshaWarrantTexts[4].text = explain;
     }
 
-    public void SetSpentaWarrant()
+    public void ClickSpentaWarrantTypeButton(int buttonIndex)
     {
-        WarrantSystem ws = GetComponent<WarrantSystem>();
-        PlayerStatus ps = GameManager.instance.Player.GetComponent<PlayerStatus>();
-
-        // 보후만
-        string explain = "";
-        explain += "쿨타임 - " + ws.nowSpentaWarrant[0].basic1 * 0.5f + "초\n";
-        explain += "공격 계수 + " + ws.nowSpentaWarrant[0].basic2 * .33f + "\n";
-        explain += "공격 대상 + " + ws.nowSpentaWarrant[0].intermediate + "";
-
-        if (ws.nowSpentaWarrant[0].advanced != 0)
+        for (int i = 0; i < 3; i++)
         {
-            explain += "\n적 처치시 쿨타임 초기화";
+            if (i == buttonIndex)
+            {
+                spentaWarrantTpyePanels[i].SetActive(true);
+            }
+            else
+            {
+                spentaWarrantTpyePanels[i].SetActive(false);
+            }
         }
-        spentaWarrantTexts[0].text = explain;
 
-        // 카사트라
-        explain = "";
-        explain += "쿨타임 - " + ws.nowSpentaWarrant[1].basic1 * 0.7f + "초\n";
-        explain += "공격 계수 + " + ws.nowSpentaWarrant[1].basic2 * .17f + "\n";
-        explain += "사정 거리 + " + ws.nowSpentaWarrant[1].intermediate * 250+ "";
-
-        if (ws.nowSpentaWarrant[1].advanced != 0)
-        {
-            explain += "\n창이 2배 빠른 속도로 날아감, 창의 데미지가 2배가 됨";
-        }
-        spentaWarrantTexts[1].text = explain;
-
-        // 아샤
-        explain = "";
-        explain += "쿨타임 - " + ws.nowSpentaWarrant[2].basic1 * 0.5f + "초\n";
-        explain += "공격 계수 + " + ws.nowSpentaWarrant[2].basic2 * .1f + "\n";
-        explain += "사정 거리 + " + ws.nowSpentaWarrant[2].intermediate * 200 + "";
-
-        if (ws.nowSpentaWarrant[2].advanced != 0)
-        {
-            explain += "\n지속적으로 불길이 솟아오름";
-        }
-        spentaWarrantTexts[2].text = explain;
+        spentaWarrantExplainText.text = "";
+        spentaWarrantExplainTitleText.text = "";
+        spentaWarrantNowContents = -1;
+ 
     }
 
+    public void ClickSpentaWarrantContentsButton(int buttonIndex)
+    {
+        spentaWarrantNowContents = buttonIndex;
+
+        switch (buttonIndex)
+        {
+            case 11:
+                spentaWarrantExplainTitleText.text = "살수의 전율";
+                spentaWarrantExplainText.text = "적 처치시 쿨타임 초기화 (Max 1)\n" + ws.nowSpentaWarrant[0].advanced
+                                                 + " / " + ws.maxSpentaWarrant[0].advanced;
+                break;
+            case 12:
+                spentaWarrantExplainTitleText.text = "맹렬";
+                spentaWarrantExplainText.text = "공격 대상 증가 + 1 (Max 2)\n" + ws.nowSpentaWarrant[0].intermediate
+                                                 + " / " + ws.maxSpentaWarrant[0].intermediate;
+                break;
+            case 13:
+                spentaWarrantExplainTitleText.text = "수련";
+                spentaWarrantExplainText.text = "쿨타임 감소 - 0.5초 (Max 3)\n" + ws.nowSpentaWarrant[0].basic1
+                                                 + " / " + ws.maxSpentaWarrant[0].basic1;
+                break;
+            case 14:
+                spentaWarrantExplainTitleText.text = "투지";
+                spentaWarrantExplainText.text = "계수 증가 + 0.33 (Max 3)\n" + ws.nowSpentaWarrant[0].basic2
+                                                 + " / " + ws.maxSpentaWarrant[0].basic2;
+                break;
+            case 21:
+                spentaWarrantExplainTitleText.text = "회심의 일격\n";
+                spentaWarrantExplainText.text = "투사체 속도가 2배가 되고 계수가 1 증가한다 (Max 1)\n" + ws.nowSpentaWarrant[1].advanced
+                                                 + " / " + ws.maxSpentaWarrant[1].advanced;
+                break;
+            case 22:
+                spentaWarrantExplainTitleText.text = "탄성력\n";
+                spentaWarrantExplainText.text = "사거리가 증가 + 250 (Max 2)\n" + ws.nowSpentaWarrant[1].intermediate
+                                                 + " / " + ws.maxSpentaWarrant[1].intermediate;
+                break;
+            case 23:
+                spentaWarrantExplainTitleText.text = "숙달\n";
+                spentaWarrantExplainText.text = "쿨타임 감소 -0.7초 (Max 3)\n" + ws.nowSpentaWarrant[1].basic1
+                                                 + " / " + ws.maxSpentaWarrant[1].basic1;
+                break;
+            case 24:
+                spentaWarrantExplainTitleText.text = "눈썰미\n";
+                spentaWarrantExplainText.text = "계수 증가 + 0.17 (Max 3)\n" + ws.nowSpentaWarrant[1].basic2
+                                                 + " / " + ws.maxSpentaWarrant[1].basic2;
+                break;
+            case 31:
+                spentaWarrantExplainTitleText.text = "원한의 불꽃\n";
+                spentaWarrantExplainText.text = "3초동안 매 초마다 불꽃이 솟아오른다 (Max 1)\n" + ws.nowSpentaWarrant[2].advanced
+                                                 + " / " + ws.maxSpentaWarrant[2].advanced;
+                break;
+            case 32:
+                spentaWarrantExplainTitleText.text = "의지\n";
+                spentaWarrantExplainText.text = "사거리가 증가 +200 (Max 2)\n" + ws.nowSpentaWarrant[2].intermediate
+                                                 + " / " + ws.maxSpentaWarrant[2].intermediate;
+                break;
+            case 33:
+                spentaWarrantExplainTitleText.text = "집중\n";
+                spentaWarrantExplainText.text = "쿨타임 감소 - 0.5초 (Max 3)\n" + ws.nowSpentaWarrant[2].basic1
+                                                 + " / " + ws.maxSpentaWarrant[2].basic1;
+                break;
+            case 34:
+                spentaWarrantExplainTitleText.text = "확신\n";
+                spentaWarrantExplainText.text = "계수 증가 + 0.1 (Max 3)\n" + ws.nowSpentaWarrant[2].basic2
+                                                 + " / " + ws.maxSpentaWarrant[2].basic2;
+                break;
+
+            default:
+                Debug.Log("Error");
+                break;
+        }
+    }
+
+    public void ClickSpentaWarrantReinfoceButton()
+    {
+        if (spentaWarrantNowContents == -1)
+        {
+            return;
+        }
+
+        ws.GetWarrant(spentaWarrantNowContents);
+
+        ClickSpentaWarrantContentsButton(spentaWarrantNowContents);
+
+    }
+    public void SetSpentaWarrant()
+    {
+        
+    }
+
+    public void OpenSetting()
+    {
+        UIPanels[5].SetActive(true);
+
+    }
 
     public void OpenManual()
     {

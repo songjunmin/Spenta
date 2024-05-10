@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
     // 상태이상 유지 시간
     public float[] abnormalTime; // 0 : Slow
 
-
     private void Awake()
     {
         if (instance == null)
@@ -102,22 +101,6 @@ public class GameManager : MonoBehaviour
     public void ChangeHp()
     {
         hpBar.fillAmount = Player.GetComponent<PlayerStatus>().hp / Player.GetComponent<PlayerStatus>().maxHp;
-    }
-
-    public void EnemyDead()
-    {
-        if (Player.GetComponent<PlayerStatus>().flashReset)
-        {
-            if (Player.GetComponent<PlayerStatus>().flashResetTime > 0)
-            {
-                Player.GetComponent<PlayerStatus>().nonSkillCurTime[0] = 0;
-            }
-        }
-
-        if (Player.GetComponent<PlayerStatus>().bohumanReset)
-        {
-            Player.GetComponent<PlayerStatus>().skillCurTime[0] = 0;
-        }
     }
 
     public void Test()
@@ -187,4 +170,5 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
 }
