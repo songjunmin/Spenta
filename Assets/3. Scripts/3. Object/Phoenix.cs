@@ -43,12 +43,12 @@ public class Phoenix : MonoBehaviour
 
         dialogue.SetDialogueText(dialogueText);
 
-        GameManager.instance.GetComponent<UiManager>().dialogueList.Add(dialogue);
-
 
         string[] dialogueEndText = new string[1];
         dialogueEndText[0] = "何叼 公款阑 后促ˇ";
 
         dialogue.SetDialogueEndText(dialogueEndText);
+
+        GameManager.instance.GetComponent<UiManager>().dialogueList.Add(dialogue);
     }
 }

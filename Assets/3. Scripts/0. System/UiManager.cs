@@ -436,10 +436,15 @@ public class UiManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (dialoguePanel.activeSelf)
+            if (nowDialogue.pointer == 0)
             {
                 nowDialogue.pointer++;
+                return;
+            }
 
+            if (dialoguePanel.activeSelf)
+            {
+                
                 if (nowDialogue.pointer < nowDialogue.dialogueText.Length)
                 {
                     dialogueText.text = nowDialogue.dialogueText[nowDialogue.pointer];
@@ -452,6 +457,7 @@ public class UiManager : MonoBehaviour
                 {
                     nowDialogue.pointer -= 2;
                 }
+                nowDialogue.pointer++;
             }
 
         }

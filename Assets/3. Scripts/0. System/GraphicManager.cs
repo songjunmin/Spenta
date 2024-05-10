@@ -7,17 +7,30 @@ public class GraphicManager : MonoBehaviour
 {
     public Toggle toggle;
     public Dropdown dropdown;
-    
+
+    private List<string> resolutions = new List<string>();
+
+    bool isMax = true;
+
+    private void Awake()
+    {
+        resolutions = new List<string>();
+        for (int i = 0; i < Screen.resolutions.Length; i++)
+        {
+            resolutions.Add($"{Screen.resolutions[i].width}x{Screen.resolutions[i].height}");
+        }
+        dropdown.AddOptions(resolutions);
+    }
+
     public void ClickToggle()
     {
         if (toggle.isOn)
         {
-            dropdown.interactable = false;
+            isMax = true;
         }
         else
         {
-            dropdown.interactable = true;
-            ChangeGraphic();
+            isMax = true;
         }
     }
 
@@ -25,13 +38,17 @@ public class GraphicManager : MonoBehaviour
     {
         Debug.Log(dropdown.value);
 
-        switch (dropdown.value)
-        {
-            case 0: Screen.SetResolution(1600, 900, false); break;
-            case 1: Screen.SetResolution(1280, 720, false); break;
-            case 2: Screen.SetResolution(960, 540, false); break;
-            case 3: Screen.SetResolution(640, 360, false); break;
+        int resolutionIndex = dropdown.value;
+        int width = Screen.resolutions[resolutionIndex].width;
+        int height = Screen.resolutions[resolutionIndex].height;
+        Screen.SetResolution(width, height, isMax);
 
-        }    
+        //switch (dropdown.value)
+        //{
+        //    case 0: Screen.SetResolution(1600, 900, false); break;
+        //    case 1: Screen.SetResolution(1280, 720, false); break;
+        //    case 2: Screen.SetResolution(960, 540, false); break;
+        //    case 3: Screen.SetResolution(640, 360, false); break;
+        //}    
     }
 }
