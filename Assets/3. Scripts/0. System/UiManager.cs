@@ -43,7 +43,7 @@ public class UiManager : MonoBehaviour
     public Text typeExplain;
     public Text[] statusTexts;
     public Text[] ameshaWarrantTexts;
-
+    public Text[] spentaWarrantTexts;
 
     public Text spentaWarrantExplainTitleText;
     public Text spentaWarrantExplainText;
@@ -386,6 +386,45 @@ public class UiManager : MonoBehaviour
     }
     public void SetSpentaWarrant()
     {
+        // !! 변경 필요
+
+        WarrantSystem ws = GetComponent<WarrantSystem>();
+        PlayerStatus ps = GameManager.instance.Player.GetComponent<PlayerStatus>();
+
+        // Bohuman
+        string explain = "";
+        explain += "쿨타임 - " + ws.nowSpentaWarrant[0].basic1 * 0.5 + "초\n";
+        explain += "계수 + " + ws.nowSpentaWarrant[0].basic2 * 0.33 + "";
+        explain += "공격 대상 증가 + " + ws.nowSpentaWarrant[0].intermediate + "";
+
+        if (ws.nowSpentaWarrant[0].advanced != 0)
+        {
+            explain += "적 처치 시 쿨타임 초기화";
+        }
+        spentaWarrantTexts[0].text = explain;
+
+        // Cassatra
+        explain = "쿨타임 - " + ws.nowSpentaWarrant[1].basic1 * 0.7 + "초\n";
+        explain += "계수 + " + ws.nowSpentaWarrant[1].basic2 * 0.7 + "\n";
+        explain += "사거리 +  " + ws.nowSpentaWarrant[1].intermediate * 250 + "";
+
+        if (ws.nowSpentaWarrant[1].advanced != 0)
+        {
+            explain += "\n무적의 지속시간 1초 증가";
+        }
+        spentaWarrantTexts[1].text = explain;
+
+        // Asha
+        explain = "";
+        explain += "최대 체력 + " + ws.nowSpentaWarrant[2].GetPointByInt(0) * 20 + "\n";
+        explain += "보호막 최대치 + " + ws.nowSpentaWarrant[2].GetPointByInt(1) * 10 + "";
+
+        if (ws.nowSpentaWarrant[2].GetPointByInt(2) != 0)
+        {
+            explain += "\n평온 상태 돌입까지 걸리는 시간 1초 감소";
+        }
+        spentaWarrantTexts[2].text = explain;
+
         
     }
 

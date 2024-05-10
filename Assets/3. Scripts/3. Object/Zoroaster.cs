@@ -37,12 +37,13 @@ public class Zoroaster : MonoBehaviour
 
         dialogue.SetDialogueText(dialogueText);
 
-        GameManager.instance.GetComponent<UiManager>().dialogueList.Add(dialogue);
-
 
         string[] dialogueEndText = new string[1];
         dialogueEndText[0] = "자네의 여정에 불의 가호가 있기를…";
 
         dialogue.SetDialogueEndText(dialogueEndText);
+
+        GameManager.instance.GetComponent<UiManager>().dialogueList.Add(dialogue);
+
     }
 }

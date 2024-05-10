@@ -36,19 +36,9 @@ public class GraphicManager : MonoBehaviour
 
     public void ChangeGraphic()
     {
-        Debug.Log(dropdown.value);
-
         int resolutionIndex = dropdown.value;
         int width = Screen.resolutions[resolutionIndex].width;
         int height = Screen.resolutions[resolutionIndex].height;
         Screen.SetResolution(width, height, isMax);
-
-        //switch (dropdown.value)
-        //{
-        //    case 0: Screen.SetResolution(1600, 900, false); break;
-        //    case 1: Screen.SetResolution(1280, 720, false); break;
-        //    case 2: Screen.SetResolution(960, 540, false); break;
-        //    case 3: Screen.SetResolution(640, 360, false); break;
-        //}    
     }
 }

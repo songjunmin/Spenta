@@ -5653,7 +5653,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5452958864094187046
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8663,7 +8663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1854556132499158273
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10352,7 +10352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4967594980559104392
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13624,6 +13624,10 @@ MonoBehaviour:
   - {fileID: 4768666392872589289}
   - {fileID: 2781291009372870974}
   - {fileID: 5427348600470065209}
+  spentaWarrantTexts:
+  - {fileID: 5410185400607228637}
+  - {fileID: 1331128667597136589}
+  - {fileID: 4038168620365872361}
   spentaWarrantExplainTitleText: {fileID: 2266570169424276074}
   spentaWarrantExplainText: {fileID: 2081185304763675683}
   spentaWarrantTpyePanels:
@@ -19811,7 +19815,7 @@ RectTransform:
   m_Father: {fileID: 7820268452965834386}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: -38}
   m_SizeDelta: {x: 0, y: 38}
   m_Pivot: {x: 0, y: 0}
@@ -21686,6 +21690,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5356842046922380133}
+        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
+        m_MethodName: ESC
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7194654759507422192
 GameObject:
   m_ObjectHideFlags: 0
@@ -22780,7 +22796,7 @@ RectTransform:
   m_Father: {fileID: 5325573853404897574}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: -38}
   m_SizeDelta: {x: 0, y: 38}
   m_Pivot: {x: 0, y: 0}
@@ -26268,7 +26284,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2631444330371053894
 RectTransform:
   m_ObjectHideFlags: 0
